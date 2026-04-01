@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Mail, Bell, Github, Twitter, Linkedin, Timer, Rocket, Sparkles } from 'lucide-react';
+import { Mail, Bell, Globe, Share2, Plus, Timer, Rocket, Sparkles } from 'lucide-react';
 
 export default function ComingSoon() {
   const [email, setEmail] = useState('');
@@ -103,9 +103,9 @@ export default function ComingSoon() {
           )}
 
           <div className="social-links">
-            <a href="#" className="social-icon"><Twitter size={20} /></a>
-            <a href="#" className="social-icon"><Github size={20} /></a>
-            <a href="#" className="social-icon"><Linkedin size={20} /></a>
+            <a href="#" className="social-icon"><Globe size={20} /></a>
+            <a href="#" className="social-icon"><Share2 size={20} /></a>
+            <a href="#" className="social-icon"><Plus size={20} /></a>
           </div>
         </div>
 
