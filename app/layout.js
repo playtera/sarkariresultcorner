@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 
 export const metadata = {
   title: 'SarkariResultCorner.com - Official Website for Latest Jobs, Results, Admit Cards',
-  description: 'SarkariResultCorner® 2026 – Official Website for latest government jobs, online forms, admit cards, results, and recruitment updates for SSC, Railway, Bank, Police, UPPSC, UPSSSC & more.',
+  description: 'SarkariResultCorner 2026 – Official Website for latest government jobs, online forms, admit cards, results, and recruitment updates for SSC, Railway, Bank, Police, UPPSC, UPSSSC & more.',
   keywords: 'Sarkari Result, Sarkari Exam, Government Jobs, Admit Card, Latest Results, Online Form, 2026 jobs, India recruitment',
   authors: [{ name: 'SarkariResultCorner Team' }],
   robots: 'index, follow',
