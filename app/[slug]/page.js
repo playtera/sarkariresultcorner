@@ -48,23 +48,6 @@ export default async function JobDetail({ params }) {
           // Remove headers, footers, nav bars, and junk containers globally inside the scope
           $post.find('header, footer, nav, #header, #footer, .menu, .nav, .sidebar, .widget, script, style, iframe, form, button, .social-buttons, noscript, h1').remove();
           
-          // Remove specific unwanted texts and menus more aggressively
-          $post.find('*').each((i, el) => {
-             const text = $(el).text().trim().toLowerCase();
-             // Menu items and skip links
-             if (text === 'skip to content' || text === 'home' || text === 'latest job' || 
-                 text === 'admit card' || text === 'result' || text === 'admission' || 
-                 text === 'syllabus' || text === 'answer key' || text === 'contact us' || 
-                 text === 'privacy policy' || text === 'disclaimer' || text === 'more') {
-                 $(el).remove();
-                 return;
-             }
-             // Filter block phrases entirely
-             if (text.includes('disclaimer') || text.includes('whatsapp') || text.includes('telegram') || text.includes('join our')) {
-                 $(el).remove();
-             }
-          });
-
           // Convert internal domain links to relative linking, keep official ones intact
           $post.find('a').each((i, el) => {
               const href = $(el).attr('href');
@@ -78,6 +61,36 @@ export default async function JobDetail({ params }) {
                   // Official/External Links (Apply Online, Notifs) - kept 100% exactly as original
                   $(el).attr('target', '_blank');
                   $(el).attr('rel', 'noreferrer');
+              }
+          });
+
+          // Targeted removal for junk texts instead of deleting parent elements!
+          $post.find('*').contents().each((i, el) => {
+              if (el.nodeType === 3) { // Text Node
+                  const text = $(el).text().trim().toLowerCase();
+                  
+                  // Delete standalone exact match menu words
+                  if (text === 'skip to content' || text === 'home' || text === 'latest job' || 
+                      text === 'admit card' || text === 'result' || text === 'admission' || 
+                      text === 'syllabus' || text === 'answer key' || text === 'contact us' || 
+                      text === 'privacy policy' || text === 'disclaimer' || text === 'more') {
+                      $(el).remove();
+                  } 
+                  // Delete phrases
+                  else if (text.includes('disclaimer') || text.includes('whatsapp') || 
+                           text.includes('telegram') || text.includes('join our')) {
+                      // We aggressively remove the parent paragraph, span, or list item of this text
+                      // but not the whole table!
+                      const parent = $(el).parent();
+                      const parentTag = parent.prop('tagName') ? parent.prop('tagName').toLowerCase() : '';
+                      
+                      // Safely remove the local parent line
+                      if (parentTag === 'p' || parentTag === 'li' || parentTag === 'span' || parentTag === 'a' || parentTag === 'b' || parentTag === 'strong') {
+                          parent.remove();
+                      } else {
+                          $(el).remove();
+                      }
+                  }
               }
           });
 

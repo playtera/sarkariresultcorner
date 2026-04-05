@@ -1,5 +1,7 @@
 import * as cheerio from 'cheerio';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const response = await fetch('https://sarkariresult.com.cm/', {
@@ -22,48 +24,62 @@ export async function GET() {
       other: []
     };
     
-    // We will extract all links and try to weakly categorize them
-    // Real-world scrapers would target exact CSS selectors, 
-    // e.g., $('#post .latest-jobs ul li a') depending on the site.
-    
+    // We will extract links exactly structurally
     const uniqueLinks = new Set();
-    
-    $('a').each((i, el) => {
-        const text = $(el).text().trim();
-        const href = $(el).attr('href');
-        
-        // Filter out empty links, internal navigation, etc.
-        if (text && href && href.startsWith('http') && text.length > 5 && !['View More', 'Home', 'Contact Us', 'Privacy Policy', 'Disclaimer'].includes(text)) {
-            const key = `${text}|${href}`;
-            if (!uniqueLinks.has(key)) {
-                uniqueLinks.add(key);
-                
-                // Make the link map to our own dynamic route
-                let internalLink = href;
-                try {
-                   const urlObj = new URL(href);
-                   if (urlObj.hostname.includes('sarkariresult.com.cm')) {
-                       // Convert to relative path e.g. /mpesb-van-rakshak-jail-prahari-2026
-                       // We remove trailing slash and grab the pathname
-                       internalLink = urlObj.pathname.replace(/\/$/, '');
-                   }
-                } catch(e) {}
+    let count = 0;
 
-                const item = { title: text, link: internalLink || href, date: new Date().toLocaleDateString() };
-                const textLower = text.toLowerCase();
+    $('.gb-inside-container').each((i, container) => {
+        // Find the title for this container (like "Latest Job", "Admit Cards")
+        const headingText = $(container).find('.gb-headline').text().trim().toLowerCase();
+        
+        let targetCategory = null;
+        if (headingText.includes('latest job') || headingText.includes('latest jobs')) {
+            targetCategory = data.latestJobs;
+        } else if (headingText.includes('admit card')) {
+            targetCategory = data.admitCards;
+        } else if (headingText.includes('result')) {
+            targetCategory = data.results;
+        } else if (headingText) {
+            targetCategory = data.other;
+        }
+
+        // If a known category is found, extract its valid links inside the posts block
+        if (targetCategory) {
+            $(container).find('.wp-block-latest-posts__list a, .wp-block-latest-posts a').each((_, el) => {
+                const text = $(el).text().trim();
+                const href = $(el).attr('href');
                 
-                if (textLower.includes('result') || textLower.includes('score card') || textLower.includes('merit list')) {
-                   data.results.push(item);
-                } else if (textLower.includes('admit card') || textLower.includes('exam date') || textLower.includes('city details')) {
-                   data.admitCards.push(item);
-                } else if (textLower.includes('form') || textLower.includes('apply') || textLower.includes('recruitment')) {
-                   data.latestJobs.push(item);
-                } else {
-                   data.other.push(item);
+                if (text && href && text.length > 3 && !text.includes('View More') && !text.includes('Disclaimer')) {
+                    const key = `${text}|${href}`;
+                    if (!uniqueLinks.has(key)) {
+                        uniqueLinks.add(key);
+                        count++;
+                        
+                        let internalLink = href;
+                        try {
+                           const urlObj = new URL(href);
+                           if (urlObj.hostname.includes('sarkariresult')) {
+                               internalLink = urlObj.pathname.replace(/\/$/, '');
+                           }
+                        } catch(e) {}
+
+                        // Clean out the brand name from the displayed text on the homepage dashboard
+                        let cleanText = text.replace(/sarkariresult\.com\.cm/gi, 'SarkariResultCorner.com')
+                                            .replace(/sarkariresult/gi, 'SarkariResultCorner');
+                                            
+                        targetCategory.push({ 
+                            title: cleanText, 
+                            link: internalLink || href, 
+                            date: new Date().toLocaleDateString() 
+                        });
+                    }
                 }
-            }
+            });
         }
     });
+
+    // Fallback if the container mapping failed for some reason
+    // In actual implementation, we might implement a standard <a> scan here.
 
     return Response.json({ success: true, count: uniqueLinks.size, data });
   } catch (error) {
