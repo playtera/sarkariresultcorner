@@ -96,7 +96,7 @@ export async function GET() {
             await sendNotification(
                 `🆕 <b>New Job Update!</b>\n\n` +
                 `📝 ${post.title}\n\n` +
-                `🔗 <a href="http://sarkarireultsite.in${post.link}">Click Here to View</a>`,
+                `🔗 <a href="https://sarkariresultcorner.com${post.link}">Click Here to View</a>`,
                 channelId
             );
         }
@@ -116,3 +116,4 @@ export async function GET() {
     return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }
+
