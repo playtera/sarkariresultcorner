@@ -1,5 +1,5 @@
-﻿import { writeClient } from '../../../lib/sanity/write-client';
-import { getSimplifiedHtml, sendNotification } from '../../../lib/scraper-utils';
+﻿import { writeClient } from '../../../../lib/sanity/write-client';
+import { getSimplifiedHtml, sendNotification } from '../../../../lib/scraper-utils';
 import * as cheerio from 'cheerio';
 
 export async function POST(req) {
@@ -31,3 +31,4 @@ export async function POST(req) {
     return Response.json({ success: false, error: err.message }, { status: 500 });
   }
 }
+
