@@ -118,3 +118,4 @@ export default async function AdmissionPage() {
   return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Discovering newly opened entrance exams and university admissions." items={items} seoContent={<AdmissionSEO />} />;
 }
 
+

@@ -1,10 +1,10 @@
+﻿export const dynamic = 'force-dynamic';
 import React from 'react';
 import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
 import SiteCache from '@/models/SiteCache';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
 
-export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Admit Cards 2026 | SarkariResultCorner',
@@ -69,7 +69,7 @@ export default async function AdmitCardsPage() {
 
                   if (lastDate) {
                       // Clean up formatting
-                      lastDate = lastDate.replace(/^[\s-—]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
+                      lastDate = lastDate.replace(/^[\s-â€”]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
                       if (lastDate.length > 50) {
                           lastDate = lastDate.substring(0, 50) + '...';
                       }
@@ -148,3 +148,4 @@ export default async function AdmitCardsPage() {
 
   return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Download the most recently published admit cards and interview letters." items={items} />;
 }
+

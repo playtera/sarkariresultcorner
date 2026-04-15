@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic';
 import React from 'react';
 import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
@@ -5,7 +6,6 @@ import SiteCache from '@/models/SiteCache';
 import LatestJobsSEO from '@/components/LatestJobsSEO';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
 
-export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Latest Government Jobs 2026 - Official Vacancy Notifications | SarkariResultCorner',
@@ -74,7 +74,7 @@ export default async function LatestJobsPage() {
 
                   if (lastDate) {
                       // Clean up formatting
-                      lastDate = lastDate.replace(/^[\s-—]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
+                      lastDate = lastDate.replace(/^[\s-â€”]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
                       if (lastDate.length > 50) {
                           lastDate = lastDate.substring(0, 50) + '...';
                       }
@@ -153,3 +153,4 @@ export default async function LatestJobsPage() {
 
   return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Browsing the most recently updated government job applications." items={items} seoContent={<LatestJobsSEO />} />;
 }
+

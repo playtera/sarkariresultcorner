@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic';
 import React from 'react';
 import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
@@ -5,7 +6,6 @@ import SiteCache from '@/models/SiteCache';
 import ResultsSEO from '@/components/ResultsSEO';
 import CategoryPageClientUI from '@/components/CategoryPageClientUI';
 
-export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Sarkari Result 2026 - Latest Exam Results & Merit Lists | SarkariResultCorner',
@@ -74,7 +74,7 @@ export default async function ResultsPage() {
 
                   if (lastDate) {
                       // Clean up formatting
-                      lastDate = lastDate.replace(/^[\s-—]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
+                      lastDate = lastDate.replace(/^[\s-â€”]+/, '').replace(/Last Date\s*[:-]?\s*/i, '').trim();
                       if (lastDate.length > 50) {
                           lastDate = lastDate.substring(0, 50) + '...';
                       }
@@ -153,3 +153,4 @@ export default async function ResultsPage() {
 
   return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Browsing the most recently released exam results and merit list scorecards." items={items} seoContent={<ResultsSEO />} />;
 }
+
