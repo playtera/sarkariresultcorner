@@ -122,6 +122,9 @@ const Header = () => {
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
+        .header-scrolled .site-logo {
+          height: 44px;
+        }
         .header-content {
           display: flex;
           justify-content: space-between;
@@ -147,7 +150,7 @@ const Header = () => {
           z-index: -1;
         }
         .site-logo {
-          height: 40px;
+          height: 60px;
           width: auto;
           display: block;
         }
@@ -304,7 +307,7 @@ const Header = () => {
           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         .drawer-logo {
-          height: 32px;
+          height: 42px;
         }
         .drawer-scroll-area {
           flex: 1;
@@ -364,7 +367,7 @@ const Header = () => {
         }
 
         @media (max-width: 1100px) {
-          .site-logo { height: 32px; }
+          .site-logo { height: 42px; }
           .nav-link-modern { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
         }
 

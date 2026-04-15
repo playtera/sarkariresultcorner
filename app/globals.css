@@ -418,7 +418,8 @@ button {
 .sarkari-content-area li {
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
-  padding-left: 2rem; /* Adjusted for better bullet spacing */
+  padding-left: 2rem;
+  /* Adjusted for better bullet spacing */
   list-style-position: inside;
 }
 
@@ -609,7 +610,8 @@ button {
     text-transform: uppercase !important;
     font-size: 0.8rem !important;
     letter-spacing: 0.02em !important;
-    white-space: normal !important; /* Fixed: Allow wrapping for 50/50 balance */
+    white-space: normal !important;
+    /* Fixed: Allow wrapping for 50/50 balance */
     flex-direction: row !important;
     gap: 0.5rem !important;
   }

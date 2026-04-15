@@ -1,4 +1,4 @@
-import { FileText } from 'lucide-react'
+﻿import { FileText } from 'lucide-react'
 import { HtmlBodyEditor } from '../components/HtmlBodyEditor'
 
 export default {
@@ -51,6 +51,38 @@ export default {
       initialValue: 'published',
     },
     {
+      name: 'tracking',
+      title: 'Auto-Sync Monitor',
+      type: 'object',
+      fields: [
+        {
+          name: 'enabled',
+          title: 'Enable Auto-Sync Check',
+          type: 'boolean',
+          initialValue: false,
+        },
+        {
+          name: 'sourceSlug',
+          title: 'Source ID',
+          type: 'string',
+          description: 'The internal ID for monitoring.'
+        },
+        {
+          name: 'lastScrapedLinks',
+          title: 'Sync Reference (System Data)',
+          type: 'text',
+          readOnly: true,
+          description: 'The internal fingerprint used for comparison.'
+        },
+        {
+          name: 'checkCount',
+          title: 'Total Checks performed',
+          type: 'number',
+          readOnly: true
+        }
+      ]
+    },
+    {
       name: 'body',
       title: 'Body (Visual / Rich Text)',
       type: 'blockContent',
@@ -60,7 +92,7 @@ export default {
       name: 'htmlBody',
       title: 'HTML / Code Editor (WordPress-style)',
       type: 'text',
-      description: 'Paste your raw HTML tables and links here. Use the Live Preview to visualise.',
+      description: 'Paste your raw HTML tables and links here.',
       components: {
         input: HtmlBodyEditor
       }
