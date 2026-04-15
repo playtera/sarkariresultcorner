@@ -27,7 +27,7 @@ export default async function AnswerKeyPage() {
       return <CategoryPageClientUI pageTitle={cachedEntry.data.pageTitle || pageTitle} subtitle="Download official answer keys and response sheets." items={cachedEntry.data.items} />;
     }
 
-    console.log(`[PAGE CACHE MISS] ${cacheKey} - Scraping...`);
+    console.log(`[PAGE CACHE MISS] ${cacheKey} - Syncing...`);
 
     const res = await fetch(sourceUrl, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
@@ -148,4 +148,5 @@ export default async function AnswerKeyPage() {
 
   return <CategoryPageClientUI pageTitle={pageTitle} subtitle="Download official answer keys and response sheets." items={items} />;
 }
+
 

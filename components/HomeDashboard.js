@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Sparkles, FileText, CheckCircle, GraduationCap } from 'lucide-react';
@@ -63,7 +63,7 @@ export default function HomeDashboard() {
       {loading ? (
         <div className={styles.loadingState}>
           <Sparkles size={32} className={styles.iconPulse} style={{ color: '#3b82f6' }} />
-          <p>Scraping the latest data for you...</p>
+          <p>Syncing latest updates for you...</p>
         </div>
       ) : error ? (
         <div className={styles.errorState}>
@@ -87,3 +87,4 @@ export default function HomeDashboard() {
     </div>
   );
 }
+
