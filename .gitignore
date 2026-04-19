@@ -40,9 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# admin post
-/app/adminpost
-/app/api/get-html
-
 # scratch
 scratch/

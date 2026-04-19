@@ -1,11 +1,13 @@
-﻿import * as cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import dbConnect from '@/lib/db';
 import SiteCache from '@/models/SiteCache';
 import { sendNotification } from '@/lib/scraper-utils';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const forceRefresh = searchParams.get('refresh') === 'true';
   const channelId = process.env.TELEGRAM_CHANNEL_ID;
 
   try {
@@ -19,7 +21,7 @@ export async function GET() {
       console.warn("[Data Feed] Database unavailable:", dbError.message);
     }
 
-    if (dbEnabled) {
+    if (dbEnabled && !forceRefresh) {
       const cacheKey = 'homepage_links';
       cachedEntry = await SiteCache.findOne({ key: cacheKey });
       

@@ -25,6 +25,11 @@ export default async function PostPage({ params }) {
   const { slug: rawSlug } = await params
   // Normalize slug: Remove %20 and spaces, convert to hyphens for matching source site
   const slug = decodeURIComponent(rawSlug).trim().toLowerCase().replace(/\s+/g, '-');
+  
+  // Prevent catching admin routes if for some reason they fall through
+  if (slug === 'adminpost' || slug === 'admin') {
+    return null; // Or you could return notFound() if you want to be stricter
+  }
 
   // 1. TRY TO FETCH FROM SANITY (Priority 1)
   const query = `*[_type == "post" && slug.current == $slug][0]`
