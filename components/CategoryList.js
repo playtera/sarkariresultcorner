@@ -29,6 +29,7 @@ const CategoryList = ({ title, icon, items, viewMoreLink, color = 'primary' }) =
             category={item.category}
             isNew={item.isNew}
             isImportant={item.isImportant}
+            sanityExists={item.sanityExists}
           />
         ))}
       </div>

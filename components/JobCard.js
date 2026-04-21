@@ -2,15 +2,16 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Calendar, ChevronRight, MapPin, Tag } from 'lucide-react';
+import { Calendar, ChevronRight, MapPin, Tag, CheckCircle2 } from 'lucide-react';
 
-const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant }) => {
+const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sanityExists }) => {
   return (
     <div className={`job-card-item ${isImportant ? 'important' : ''}`}>
       <Link href={link} className="job-card-link">
         <div className="job-card-header">
           {isNew && <span className="badge badge-new">New</span>}
           {isImportant && <span className="badge badge-hot">Hot</span>}
+          {sanityExists && <span className="badge badge-sanity"><CheckCircle2 size={10} /> Live</span>}
           {date && (
             <span className="job-date">
               <Calendar size={14} />
@@ -100,6 +101,14 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant }) 
           background: rgba(239, 68, 68, 0.15);
           color: #f87171;
           border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .badge-sanity {
+          background: rgba(16, 185, 129, 0.15);
+          color: #34d399;
+          border: 1px solid rgba(16, 185, 129, 0.3);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
         }
         .job-date {
           display: flex;

@@ -11,6 +11,49 @@ export async function GET(request) {
   const channelId = process.env.TELEGRAM_CHANNEL_ID;
 
   try {
+    const type = searchParams.get('type');
+    
+    if (type === 'sitemap') {
+      console.log("[Data Feed] Fetching sitemap posts...");
+      const sitemapRes = await fetch('https://sarkariresult.com.cm/post-sitemap2.xml', {
+        headers: { 'User-Agent': 'Mozilla/5.0' }
+      });
+      const xml = await sitemapRes.text();
+      const $ = cheerio.load(xml, { xmlMode: true });
+      
+      const sitemapItems = [];
+      $('url').each((i, el) => {
+        const loc = $(el).find('loc').text();
+        const lastmod = $(el).find('lastmod').text();
+        
+        if (loc) {
+          try {
+            const urlObj = new URL(loc);
+            const path = urlObj.pathname.replace(/\/$/, '');
+            const slug = path.split('/').pop();
+            const title = slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            
+            sitemapItems.push({
+              title: title,
+              link: path,
+              date: lastmod ? new Date(lastmod).toLocaleDateString('en-GB', {
+                day: 'numeric', month: 'short', year: 'numeric'
+              }) : '',
+              lastmod: lastmod
+            });
+          } catch (e) {}
+        }
+      });
+
+      // Sort by latest first
+      sitemapItems.sort((a, b) => new Date(b.lastmod) - new Date(a.lastmod));
+
+      return Response.json({ 
+        success: true, 
+        data: [{ title: 'Sitemap Posts (Latest First)', items: sitemapItems }] 
+      });
+    }
+
     let cachedEntry = null;
     let dbEnabled = false;
 

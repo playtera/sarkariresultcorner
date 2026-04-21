@@ -1,19 +1,22 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, FileText, CheckCircle, GraduationCap, RefreshCw } from 'lucide-react';
+import { Sparkles, FileText, CheckCircle, GraduationCap, RefreshCw, CheckCircle2 } from 'lucide-react';
 import CategoryList from '@/components/CategoryList';
+import { client } from '@/lib/sanity/client';
 
 export default function AdminPost() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sanityStatusMap, setSanityStatusMap] = useState({});
+  const [checkingSanity, setCheckingSanity] = useState(false);
 
   const fetchData = async (refresh = false) => {
     setLoading(true);
     setError(null);
     try {
-      const url = refresh ? '/api/scrape?refresh=true' : '/api/scrape';
+      const url = refresh ? '/api/scrape?type=sitemap&refresh=true' : '/api/scrape?type=sitemap';
       const res = await fetch(url, { cache: 'no-store' });
       const json = await res.json();
       if (json.success && json.data) {
@@ -29,9 +32,51 @@ export default function AdminPost() {
     }
   };
 
+  const totalLinks = data.reduce((acc, cat) => acc + cat.items.length, 0);
+  const liveInSanityCount = Object.keys(sanityStatusMap).length;
+  const pendingCount = totalLinks - liveInSanityCount;
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      checkSanityBatch();
+    }
+  }, [data]);
+
+  const checkSanityBatch = async () => {
+    setCheckingSanity(true);
+    const slugs = [];
+    data.forEach(cat => {
+      cat.items.forEach(item => {
+        let slug = item.link;
+        if (slug.startsWith('/')) slug = slug.slice(1);
+        if (slug && slugs.length < 1000) slugs.push(slug);
+      });
+    });
+
+    if (slugs.length === 0) {
+      setCheckingSanity(false);
+      return;
+    }
+
+    try {
+      const query = `*[_type == "post" && slug.current in $slugs].slug.current`;
+      const existingSlugs = await client.fetch(query, { slugs });
+      
+      const map = {};
+      existingSlugs.forEach(slug => {
+        map[slug] = true;
+      });
+      setSanityStatusMap(map);
+    } catch (err) {
+      console.error("Batch sanity check failed", err);
+    } finally {
+      setCheckingSanity(false);
+    }
+  };
 
   const getIconForCategory = (title) => {
     const t = title.toLowerCase();
@@ -69,15 +114,31 @@ export default function AdminPost() {
             Admin Post <span className="text-gradient">Manager</span>
           </h1>
           <p className="description">
-            This is a duplicate of the homepage for admin posting purposes.
+            Managing latest updates from sitemap2.xml
           </p>
+          
+          <div className="stats-grid">
+            <div className="stat-card">
+              <span className="stat-value">{totalLinks}</span>
+              <span className="stat-label">Sitemap Links</span>
+            </div>
+            <div className="stat-card success">
+              <span className="stat-value">{liveInSanityCount}</span>
+              <span className="stat-label">In Sanity</span>
+            </div>
+            <div className="stat-card warning">
+              <span className="stat-value">{pendingCount}</span>
+              <span className="stat-label">Pending</span>
+            </div>
+          </div>
+
           <button 
             className="sync-btn" 
             onClick={() => fetchData(true)}
             disabled={loading}
           >
-            <RefreshCw size={18} className={loading ? 'spin' : ''} />
-            {loading ? 'Syncing...' : 'Sync Latest Data'}
+            <RefreshCw size={18} className={loading || checkingSanity ? 'spin' : ''} />
+            {loading ? 'Syncing...' : checkingSanity ? 'Checking Sanity...' : 'Sync Latest Data'}
           </button>
         </div>
 
@@ -92,19 +153,23 @@ export default function AdminPost() {
             <p className="error-message">{error}</p>
           </div>
         ) : (
-          <div className="dashboard-grid">
+          <div className="dashboard-grid sitemap-mode">
             {data.map((category, index) => (
               <CategoryList
                 key={index}
                 title={category.title}
                 icon={getIconForCategory(category.title)}
-                items={category.items.slice(0, 15).map(item => ({
-                  ...item,
-                  // Redirect links to the admin detail view
-                  link: item.link.startsWith('/') 
-                    ? `/adminpost${item.link}` 
-                    : item.link
-                }))}
+                items={category.items.map(item => {
+                  const slug = item.link.startsWith('/') ? item.link.slice(1) : item.link;
+                  return {
+                    ...item,
+                    // Redirect links to the admin detail view
+                    link: item.link.startsWith('/') 
+                      ? `/adminpost${item.link}` 
+                      : item.link,
+                    sanityExists: !!sanityStatusMap[slug]
+                  };
+                })}
                 viewMoreLink={getLinkForCategory(category.title)}
                 color={getColorForCategory(category.title)}
               />
@@ -156,8 +221,52 @@ export default function AdminPost() {
           font-size: 1.125rem;
           color: #94a3b8;
           max-width: 600px;
-          margin: 0 auto;
+          margin: 0 auto 1.5rem;
         }
+        
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1rem;
+          max-width: 600px;
+          margin: 0 auto 2rem;
+        }
+        
+        .stat-card {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 1.25rem;
+          border-radius: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        
+        .stat-card .stat-value {
+          font-size: 1.75rem;
+          font-weight: 800;
+          color: white;
+        }
+        
+        .stat-card .stat-label {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #94a3b8;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        
+        .stat-card.success {
+          border-color: rgba(16, 185, 129, 0.3);
+          background: rgba(16, 185, 129, 0.05);
+        }
+        .stat-card.success .stat-value { color: #10b981; }
+        
+        .stat-card.warning {
+          border-color: rgba(245, 158, 11, 0.3);
+          background: rgba(245, 158, 11, 0.05);
+        }
+        .stat-card.warning .stat-value { color: #f59e0b; }
 
         .dashboard-grid {
           display: grid;
@@ -223,6 +332,12 @@ export default function AdminPost() {
           50% { opacity: 0.7; transform: scale(1.1); }
         }
 
+        .dashboard-grid.sitemap-mode {
+          grid-template-columns: 1fr;
+          max-width: 900px;
+          margin-left: auto;
+          margin-right: auto;
+        }
         @media (max-width: 1024px) {
           .dashboard-grid {
             grid-template-columns: repeat(2, 1fr);

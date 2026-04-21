@@ -22,6 +22,122 @@ export default function AdminPostDetail() {
   const [existsInSanity, setExistsInSanity] = useState(false);
   const [checkingSanity, setCheckingSanity] = useState(true);
 
+  const GEMINI_PROMPT_TEMPLATE = `You are an expert SEO content rewriter for a Sarkari Result website.
+
+STRICT RULES:
+
+SITE BRAND:
+Replace all website names with SarkariResultCorner.com.
+
+WRITING STYLE:
+Write like a human, not AI.
+Use mixed sentence lengths (short + long).
+Slight conversational tone but still professional.
+Add natural phrases like:
+"Here’s what you should know"
+"One important update"
+"Many candidates are asking this"
+Avoid robotic or repetitive structure.
+
+STRICT ANTI-PLAGIARISM (VERY IMPORTANT):
+Rewrite completely from scratch.
+DO NOT follow original sentence order.
+Change structure, flow, and wording entirely.
+Break long sentences into smaller ones.
+Merge short sentences where needed.
+Change active ↔ passive voice.
+Add small extra explanations in your own words.
+Each paragraph must feel freshly written.
+NEVER write copied patterns like:
+"Check SSC..."
+"Get details..."
+"Direct link below..."
+
+BANNED AI PHRASES:
+Do NOT use:
+"delve into", "comprehensive guide", "unlock opportunities",
+"fantastic chance", "stable and rewarding career",
+"in this article we will explore", "crucial deadlines",
+"significant recruitment opportunity"
+
+TITLE:
+Create a highly engaging, SEO-friendly title.
+Must include main keyword naturally.
+Make it look like news headline.
+
+SEO OPTIMIZATION:
+Use keyword "{originalTitle}" naturally:
+in title
+in first paragraph
+in 2–3 headings
+Use "Sarkari Result" naturally (max 3–4 times)
+Use keyword variations:
+Example:
+SSC Steno Exam City 2026
+Stenographer Skill Test Center Details
+SSC Exam City Status
+
+HTML STRUCTURE (NO MARKDOWN):
+Use only HTML tags (<p>, <h3>, <table>)
+No markdown (** or ##)
+
+TABLE RULE (VERY STRICT):
+Keep ALL tables EXACTLY same
+Wrap tables like:
+Examples:
+fee → table-fee
+dates → table-dates
+vacancy → table-vacancy
+links → table-links
+faq → faq-data
+
+LIST RULE:
+Keep <ul> / <ol>
+Wrap lists like:
+
+CONTENT EXPANSION:
+Minimum 1200+ words
+Add helpful explanations:
+eligibility
+selection process
+how to check details
+Add user guidance tips
+
+CTA (IMPORTANT):
+Add lines like:
+Apply before last date
+Always verify from official website
+Bookmark SarkariResultCorner.com
+
+FAQ SECTION:
+Minimum 5 questions
+Must include keywords
+Wrap in: <div class="faq-data">
+
+OUTPUT FORMAT (STRICT):
+<rewritten_title>
+Your title here
+</rewritten_title>
+
+<meta_description>
+Write SEO meta description (150–160 characters)
+</meta_description>
+
+<meta_keywords>
+keyword1, keyword2, keyword3, keyword4
+</meta_keywords>
+
+<rewritten_html>
+Your full HTML content here
+</rewritten_html>
+
+= `;
+
+  const getFullGeminiPrompt = (title, content) => {
+    const prompt = GEMINI_PROMPT_TEMPLATE.replace('{originalTitle}', title || 'the job post');
+    return `${prompt}\n\n${content}`;
+  };
+
   const getGeminiReadyHtml = (html) => {
     if (!html) return '';
     const tempDiv = document.createElement('div');
@@ -33,32 +149,41 @@ export default function AdminPostDetail() {
         return node.textContent;
       }
 
-      // 2. Link Nodes: Return the FULL HTML for the link
-      if (node.nodeName === 'A') {
-        return node.outerHTML;
+      // 2. Ignore non-content tags
+      if (['SCRIPT', 'STYLE', 'NOSCRIPT', 'SVG'].includes(node.nodeName)) {
+        return '';
       }
 
-      // 3. Elements containing links (like strong/b/i): 
-      // Keep things like <strong><a ...></a></strong> together if the whole element is basically a link
-      if (['STRONG', 'B', 'I', 'EM'].includes(node.nodeName)) {
+      // 3. Link Nodes: Return the FULL HTML for the link
+      if (node.nodeName === 'A') {
+        const text = node.textContent.trim();
+        const href = node.getAttribute('href');
+        if (!text || !href) return node.outerHTML; // Fallback to raw if problematic
+        return `<a href="${href}">${text}</a>`;
+      }
+
+      // 4. Special handling for links inside simple containers
+      if (['STRONG', 'B', 'I', 'EM', 'SPAN'].includes(node.nodeName)) {
         if (node.querySelector('a') && node.childNodes.length === 1) {
           return node.outerHTML;
         }
       }
 
-      // 4. Recurse through children
+      // 5. Recurse through children
       let content = '';
       node.childNodes.forEach(child => {
         content += processNode(child);
       });
 
-      // 5. Add line breaks for block elements to preserve structure
-      if (['P', 'DIV', 'TR', 'H1', 'H2', 'H3', 'H4', 'H5', 'LI'].includes(node.nodeName)) {
-        return '\n' + content.trim() + '\n';
+      // 6. Block-level elements: add newlines to preserve structure
+      const blockTags = ['P', 'DIV', 'TR', 'H1', 'H2', 'H3', 'H4', 'H5', 'LI', 'BLOCKQUOTE', 'BR', 'UL', 'OL'];
+      if (blockTags.includes(node.nodeName)) {
+        const trimmed = content.trim();
+        return trimmed ? '\n' + trimmed + '\n' : '';
       }
 
-      // 6. Add separators for tables
-      if (node.nodeName === 'TD') {
+      // 7. Table Cell handling
+      if (node.nodeName === 'TD' || node.nodeName === 'TH') {
         return ' ' + content.trim() + ' | ';
       }
 
@@ -66,8 +191,12 @@ export default function AdminPostDetail() {
     };
 
     let result = processNode(tempDiv);
-    // Final cleanup: remove excessive newlines but keep paragraphs
-    return result.replace(/\n\s*\n\s*\n/g, '\n\n').trim();
+    // Final cleanup: remove excessive newlines but keep paragraphs, fix table spacing
+    return result
+      .replace(/\n\s*\n\s*\n+/g, '\n\n')
+      .replace(/[ \t]+\|/g, ' |')
+      .replace(/\|[ \t]+/g, '| ')
+      .trim();
   };
 
   const getSimplifiedHtml = (fullHtml) => {
@@ -151,7 +280,7 @@ export default function AdminPostDetail() {
   const copyToClipboard = () => {
     let content = data?.html;
     if (viewMode === 'summary') content = getSimplifiedHtml(data?.html);
-    if (viewMode === 'gemini') content = getGeminiReadyHtml(data?.html);
+    if (viewMode === 'gemini') content = getFullGeminiPrompt(postTitle, getGeminiReadyHtml(data?.html));
 
     if (content) {
       navigator.clipboard.writeText(content);
@@ -280,7 +409,7 @@ export default function AdminPostDetail() {
               </pre>
             ) : viewMode === 'gemini' ? (
               <pre className="html-display gemini">
-                <code>{getGeminiReadyHtml(data.html)}</code>
+                <code>{getFullGeminiPrompt(postTitle, getGeminiReadyHtml(data.html))}</code>
               </pre>
             ) : viewMode === 'summary' ? (
               <pre className="html-display summary">
