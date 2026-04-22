@@ -10,6 +10,8 @@ export const dynamic = 'force-dynamic';
 export async function GET(request) {
   const channelId = '-1003985356532';
 
+  try {
+    await dbConnect();
     // === SECTION 1: SYNC EXISTING PENDING POSTS (From sync-links) ===
     console.log("[Master Cron] Checking existing pending posts for updates...");
     const pendingQuery = `*[_type == "post" && status == "pending"] {
