@@ -1,6 +1,7 @@
 import React from 'react';
 import HomeDashboard from '@/components/HomeDashboard';
 import HomeSEOContent from '@/components/HomeSEOContent';
+import { CategorySkeleton } from '@/components/Skeleton';
 import styles from './page.module.css';
 
 export const unstable_instant = { prefetch: 'static' };
@@ -41,7 +42,13 @@ export default function Home() {
         </div>
 
         {/* Dashboard with Suspense for better initial load performance */}
-        <React.Suspense fallback={<div className={styles.loadingPlaceholder}>Syncing latest updates...</div>}>
+        <React.Suspense fallback={
+          <div className={styles.skeletonGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+            <CategorySkeleton />
+            <CategorySkeleton />
+            <CategorySkeleton />
+          </div>
+        }>
           <HomeDashboard />
         </React.Suspense>
 

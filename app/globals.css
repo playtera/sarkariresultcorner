@@ -906,3 +906,6 @@ a {
   margin-bottom: 1rem;
   color: var(--foreground);
 }
+
+/* Skeleton Animations */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }

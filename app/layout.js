@@ -149,7 +149,12 @@ export default function RootLayout({ children }) {
             <Header />
           </Suspense>
           <main>
-            <Suspense fallback={null}>
+            <Suspense fallback={
+              <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+                <div style={{ height: '40px', width: '300px', background: 'var(--border-light)', borderRadius: '8px', marginBottom: '20px', animation: 'pulse 1.5s infinite' }}></div>
+                <div style={{ height: '600px', width: '100%', background: 'var(--border-light)', borderRadius: '16px', animation: 'pulse 1.5s infinite' }}></div>
+              </div>
+            }>
               {children}
             </Suspense>
           </main>
