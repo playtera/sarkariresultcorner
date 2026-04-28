@@ -74,23 +74,24 @@ export default function AboutPage() {
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
-        .legal-page { color: white; background: #0a0a0f; min-height: 100vh; font-family: 'Outfit', sans-serif; padding: 4rem 1rem; }
+        .legal-page { color: var(--foreground); background: var(--background); min-height: 100vh; font-family: 'Outfit', sans-serif; padding: 4rem 1rem; }
         .wrapper { max-width: 1000px; margin: 0 auto; }
-        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: #94a3b8; text-decoration: none; margin-bottom: 2rem; }
-        .glass-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 2rem; padding: 4rem; backdrop-filter: blur(20px); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--foreground-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 2rem; padding: 4rem; backdrop-filter: blur(var(--glass-blur)); }
         .hero { text-align: center; margin-bottom: 5rem; }
-        .title { font-size: 3.5rem; font-weight: 950; margin-bottom: 1rem; background: linear-gradient(90deg, #facc15, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { font-size: 1.25rem; color: #94a3b8; }
+        .title { font-size: 3.5rem; font-weight: 950; margin-bottom: 1rem; color: var(--foreground); }
+        .subtitle { font-size: 1.25rem; color: var(--foreground-muted); }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; margin-bottom: 5rem; }
-        .feature { background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.1); padding: 2.5rem; border-radius: 1.5rem; transition: transform 0.3s; }
-        .feature:hover { transform: translateY(-10px); background: rgba(59, 130, 246, 0.1); }
-        .icon { width: 50px; height: 50px; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 1.5rem; }
-        .feature h3 { font-size: 1.5rem; color: #facc15; margin-bottom: 1rem; font-weight: 800; }
-        .feature p { color: #cbd5e1; line-height: 1.6; font-size: 1rem; }
+        .feature { background: var(--border-light); border: 1px solid var(--border); padding: 2.5rem; border-radius: 1.5rem; transition: all 0.3s; }
+        .feature:hover { transform: translateY(-10px); background: var(--card); border-color: var(--primary); box-shadow: var(--shadow-md); }
+        .icon { width: 50px; height: 50px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 1.5rem; }
+        .feature h3 { font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem; font-weight: 800; }
+        .feature p { color: var(--foreground-muted); line-height: 1.6; font-size: 1rem; }
 
-        .content-text h2 { color: #3b82f6; font-size: 2rem; margin: 4rem 0 1.5rem 0; font-weight: 900; }
-        .content-text p { line-height: 2; color: #cbd5e1; font-size: 1.15rem; margin-bottom: 2rem; }
+        .content-text h2 { color: var(--primary); font-size: 2rem; margin: 4rem 0 1.5rem 0; font-weight: 900; }
+        .content-text p { line-height: 2; color: var(--foreground-muted); font-size: 1.15rem; margin-bottom: 2rem; }
       `}} />
     </div>
   );

@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   font-family: 'Outfit', sans-serif;
-  color: white;
-  background: #020617; /* Slate 950 */
+  color: var(--foreground);
+  background: var(--background);
   min-height: 100vh;
 }
 
@@ -20,10 +20,10 @@
   border-radius: 2rem;
   margin-bottom: 4rem;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.05), transparent 40%),
               radial-gradient(circle at bottom right, rgba(79, 70, 229, 0.05), transparent 40%),
-              rgba(255, 255, 255, 0.02);
+              var(--card);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
 }
@@ -34,6 +34,7 @@
   font-weight: 800;
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
+  color: var(--foreground);
 }
 
 .textGradient {
@@ -45,14 +46,14 @@
 
 .description {
   font-size: 1.25rem;
-  color: #94a3b8;
+  color: var(--foreground-muted);
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
 }
 
 .description strong {
-  color: white;
+  color: var(--foreground);
   font-weight: 600;
 }
 

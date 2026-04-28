@@ -283,21 +283,21 @@ function ScrapedPostUI({ post }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="sarkari-card">
         {/* Main Header Title Box */}
-        <header className="sarkari-title-box" style={{ backgroundColor: '#000080' }}>
+        <header className="sarkari-title-box" style={{ background: 'var(--primary)' }}>
           <h1>{post.title}</h1>
         </header>
 
         {/* Navigation Breadcrumbs */}
-        <div style={{ textAlign: 'center', padding: '10px 0', borderBottom: '1px solid #ddd', fontSize: '0.9rem' }}>
-          <a href="/" style={{ color: '#00F', fontWeight: 'bold' }}>Home</a>
-          <span style={{ margin: '0 8px' }}>»</span>
-          <span style={{ color: '#666' }}>Live Updates</span>
-          <span style={{ margin: '0 8px' }}>»</span>
-          <span style={{ color: '#d00', fontWeight: 'bold' }}>{post.title}</span>
+        <div style={{ textAlign: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)', fontSize: '0.9rem' }}>
+          <a href="/" style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Home</a>
+          <span style={{ margin: '0 8px', color: 'var(--foreground-soft)' }}>»</span>
+          <span style={{ color: 'var(--foreground-muted)' }}>Live Updates</span>
+          <span style={{ margin: '0 8px', color: 'var(--foreground-soft)' }}>»</span>
+          <span style={{ color: 'var(--danger)', fontWeight: 'bold' }}>{post.title}</span>
         </div>
 
         {/* GEO: Answer-first block for posts */}
-        <div className="geo-answer-first seo-speakable-summary" style={{ margin: '20px' }}>
+        <div className="geo-answer-first seo-speakable-summary">
           <p>
             This page provides verified information about <strong>{post.title}</strong>. 
             According to the official notification, you can access the direct application link, eligibility criteria, and vacancy details below. 
@@ -316,8 +316,8 @@ function ScrapedPostUI({ post }) {
         </div>
 
         {/* Action Call to Action */}
-        <div style={{ padding: '20px', textAlign: 'center', borderTop: '2px solid #000080', backgroundColor: '#f9f9f9', marginTop: '20px' }}>
-          <h3 style={{ color: '#FF0000', fontWeight: 'bold', marginBottom: '15px' }}>Print & Share this Notification</h3>
+        <div style={{ padding: '20px', textAlign: 'center', borderTop: '2px solid var(--primary)', backgroundColor: 'var(--border-light)', marginTop: '20px' }}>
+          <h3 style={{ color: 'var(--danger)', fontWeight: 'bold', marginBottom: '15px' }}>Print & Share this Notification</h3>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <PrintButton />
           </div>
@@ -328,8 +328,8 @@ function ScrapedPostUI({ post }) {
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           textAlign: 'center',
-          borderTop: '2px solid #FF0000',
-          backgroundColor: '#000080',
+          borderTop: '2px solid var(--danger)',
+          backgroundColor: 'var(--primary)',
           color: 'white'
         }}>
           {['Latest Jobs', 'Results', 'Admit Card', 'Syllabus'].map((link) => (
@@ -341,7 +341,7 @@ function ScrapedPostUI({ post }) {
                 fontWeight: 'bold',
                 fontSize: '0.85rem',
                 textTransform: 'uppercase',
-                borderRight: '1px solid white'
+                borderRight: '1px solid rgba(255, 255, 255, 0.2)'
               }}>
               {link}
             </a>
@@ -349,7 +349,7 @@ function ScrapedPostUI({ post }) {
         </div>
       </div>
 
-      <p style={{ textAlign: 'center', fontSize: '0.7rem', color: '#999', marginTop: '10px' }}>
+      <p style={{ textAlign: 'center', fontSize: '0.7rem', color: 'var(--foreground-soft)', marginTop: '10px' }}>
         Data source: Real-time update from official sources.
       </p>
     </div>
@@ -447,21 +447,21 @@ function SanityPostUI({ post, schemaData }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="sarkari-card">
         {/* Main Header Title Box */}
-        <header className="sarkari-title-box" style={{ backgroundColor: '#0000FF' }}>
+        <header className="sarkari-title-box" style={{ background: 'var(--primary)' }}>
           <h1>{post.title}</h1>
         </header>
 
         {/* Navigation Breadcrumbs */}
-        <div style={{ textAlign: 'center', padding: '10px 0', borderBottom: '1px solid #ddd', fontSize: '0.9rem' }}>
-          <a href="/" style={{ color: '#00F', fontWeight: 'bold' }}>Home</a>
-          <span style={{ margin: '0 8px' }}>»</span>
-          <span style={{ color: '#666' }}>Latest Jobs</span>
-          <span style={{ margin: '0 8px' }}>»</span>
-          <span style={{ color: '#d00', fontWeight: 'bold' }}>{post.title}</span>
+        <div style={{ textAlign: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)', fontSize: '0.9rem' }}>
+          <a href="/" style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Home</a>
+          <span style={{ margin: '0 8px', color: 'var(--foreground-soft)' }}>»</span>
+          <span style={{ color: 'var(--foreground-muted)' }}>Latest Jobs</span>
+          <span style={{ margin: '0 8px', color: 'var(--foreground-soft)' }}>»</span>
+          <span style={{ color: 'var(--danger)', fontWeight: 'bold' }}>{post.title}</span>
         </div>
 
         {/* GEO: Answer-first block for posts */}
-        <div className="geo-answer-first seo-speakable-summary" style={{ margin: '20px' }}>
+        <div className="geo-answer-first seo-speakable-summary">
           <p>
             Welcome to the official <strong>{post.title}</strong> update page. 
             This portal tracks real-time recruitment data including eligibility, important dates, and verified <strong>.gov.in</strong> application links. 
@@ -471,22 +471,22 @@ function SanityPostUI({ post, schemaData }) {
 
         {/* Featured Image */}
         {post.mainImage && (
-          <div style={{ textAlign: 'center', padding: '15px', borderBottom: '1px solid #ddd' }}>
+          <div style={{ textAlign: 'center', padding: '15px', borderBottom: '1px solid var(--border)' }}>
             <Image
               src={urlFor(post.mainImage).width(1200).height(450).url()}
               alt={post.title}
               width={1200}
               height={450}
-              style={{ maxWidth: '100%', height: 'auto', border: '1px solid #000' }}
+              style={{ maxWidth: '100%', height: 'auto', border: '1px solid var(--border)' }}
             />
           </div>
         )}
 
         {/* Short Information Section */}
         {post.body && (
-          <div className="sarkari-short-info">
+          <div className="sarkari-short-info" style={{ padding: '20px', borderBottom: '1px solid var(--border)', color: 'var(--foreground)' }}>
             <strong>Short Information: </strong>
-            <div style={{ display: 'inline', fontSize: '0.9rem' }}>
+            <div style={{ display: 'inline', fontSize: '0.9rem', color: 'var(--foreground-muted)' }}>
               <PortableText value={post.body} />
             </div>
           </div>
@@ -495,13 +495,13 @@ function SanityPostUI({ post, schemaData }) {
         {/* Main Content Area (Tables / HTML) */}
         <div className="sarkari-content-area" style={{ padding: '5px' }}>
           {post.htmlBody && (
-            <div dangerouslySetInnerHTML={{ __html: post.htmlBody }} />
+            <div className="scraped-tables" dangerouslySetInnerHTML={{ __html: post.htmlBody }} />
           )}
         </div>
 
         {/* Action Call to Action */}
-        <div style={{ padding: '20px', textAlign: 'center', borderTop: '2px solid #000080', backgroundColor: '#f9f9f9', marginTop: '20px' }}>
-          <h3 style={{ color: '#FF0000', fontWeight: 'bold', marginBottom: '15px' }}>Print & Share this Notification</h3>
+        <div style={{ padding: '20px', textAlign: 'center', borderTop: '2px solid var(--primary)', backgroundColor: 'var(--border-light)', marginTop: '20px' }}>
+          <h3 style={{ color: 'var(--danger)', fontWeight: 'bold', marginBottom: '15px' }}>Print & Share this Notification</h3>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <PrintButton />
           </div>
@@ -512,8 +512,8 @@ function SanityPostUI({ post, schemaData }) {
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
           textAlign: 'center',
-          borderTop: '2px solid #FF0000',
-          backgroundColor: '#000080',
+          borderTop: '2px solid var(--danger)',
+          backgroundColor: 'var(--primary)',
           color: 'white'
         }}>
           {['Latest Jobs', 'Results', 'Admit Card', 'Syllabus'].map((link) => (
@@ -525,7 +525,7 @@ function SanityPostUI({ post, schemaData }) {
                 fontWeight: 'bold',
                 fontSize: '0.85rem',
                 textTransform: 'uppercase',
-                borderRight: '1px solid white'
+                borderRight: '1px solid rgba(255, 255, 255, 0.2)'
               }}>
               {link}
             </a>

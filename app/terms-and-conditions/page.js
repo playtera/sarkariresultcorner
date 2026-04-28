@@ -90,25 +90,26 @@ export default function TermsPage() {
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
-        .legal-page { color: white; background: #0a0a0f; min-height: 100vh; font-family: 'Outfit', sans-serif; padding: 4rem 1rem; }
+        .legal-page { color: var(--foreground); background: var(--background); min-height: 100vh; font-family: 'Outfit', sans-serif; padding: 4rem 1rem; }
         .wrapper { max-width: 900px; margin: 0 auto; }
-        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: #94a3b8; text-decoration: none; margin-bottom: 2rem; }
-        .glass-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 2rem; padding: 5rem 4rem; backdrop-filter: blur(20px); }
-        .hero { text-align: center; margin-bottom: 5rem; border-bottom: 2px solid rgba(59, 130, 246, 0.3); padding-bottom: 4rem; }
-        .title { font-size: 3.5rem; font-weight: 950; margin-bottom: 1rem; color: white; }
-        .subtitle { font-size: 1.2rem; color: #94a3b8; font-weight: 500; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--foreground-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 2rem; padding: 5rem 4rem; backdrop-filter: blur(var(--glass-blur)); }
+        .hero { text-align: center; margin-bottom: 5rem; border-bottom: 2px solid var(--border); padding-bottom: 4rem; }
+        .title { font-size: 3.5rem; font-weight: 950; margin-bottom: 1rem; color: var(--foreground); }
+        .subtitle { font-size: 1.2rem; color: var(--foreground-muted); font-weight: 500; }
         
         .intro-badges { display: flex; gap: 1rem; margin-bottom: 4rem; justify-content: center; }
-        .badge { display: flex; align-items: center; gap: 0.5rem; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 999px; padding: 0.5rem 1.25rem; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge { display: flex; align-items: center; gap: 0.5rem; background: var(--border-light); color: var(--primary); border-radius: 999px; padding: 0.5rem 1.25rem; font-size: 0.85rem; font-weight: 700; border: 1px solid var(--border); }
 
         .content-text section { margin-bottom: 4rem; }
-        .content-text h2 { color: #facc15; font-size: 1.75rem; font-weight: 950; margin-bottom: 1.5rem; letter-spacing: 0.5px; }
-        .content-text p { line-height: 2; color: #cbd5e1; font-size: 1.15rem; margin-bottom: 1.5rem; }
-        .content-text ul { list-style: circle; margin-left: 2rem; color: #cbd5e1; font-size: 1.1rem; line-height: 2; margin-bottom: 1.5rem; }
-        .content-text a { color: #3b82f6; text-decoration: underline; font-weight: 700; }
+        .content-text h2 { color: var(--primary); font-size: 1.75rem; font-weight: 950; margin-bottom: 1.5rem; letter-spacing: 0.5px; }
+        .content-text p { line-height: 2; color: var(--foreground-muted); font-size: 1.15rem; margin-bottom: 1.5rem; }
+        .content-text ul { list-style: circle; margin-left: 2rem; color: var(--foreground-muted); font-size: 1.1rem; line-height: 2; margin-bottom: 1.5rem; }
+        .content-text a { color: var(--primary); text-decoration: underline; font-weight: 700; }
         
-        .footer-notice { margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #94a3b8; font-style: italic; }
-        .footer-notice a { color: #3b82f6; font-weight: 800; font-style: normal; text-decoration: none; border-bottom: 2px solid #3b82f6; }
+        .footer-notice { margin-top: 6rem; padding-top: 4rem; border-top: 1px solid var(--border); text-align: center; color: var(--foreground-muted); font-style: italic; }
+        .footer-notice a { color: var(--primary); font-weight: 800; font-style: normal; text-decoration: none; border-bottom: 2px solid var(--primary); }
       `}} />
     </div>
   );

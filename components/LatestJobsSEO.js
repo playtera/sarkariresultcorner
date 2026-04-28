@@ -49,7 +49,7 @@ const LatestJobsSEO = () => {
         <h2>Latest Government Jobs 2026: A Complete Guide to Sarkari Naukri in India</h2>
 
         {/* GEO: Answer-first block */}
-        <div className="geo-answer-first" style={{ background: '#f0f4ff', border: '2px solid #000080', borderRadius: '6px', padding: '16px 20px', marginBottom: '24px' }}>
+        <div className="geo-answer-first seo-speakable-summary">
           <p><strong>Quick Answer:</strong> India will advertise <strong>2+ lakh central and 2–3 lakh state government vacancies</strong> in 2026 across Railways, SSC, Banking, Defence, and State PSCs. SarkariResultCorner.com tracks all active notifications from 500+ recruitment boards with daily updates, verified official links, and complete eligibility breakdowns — all free of charge.</p>
         </div>
 
@@ -99,8 +99,8 @@ const LatestJobsSEO = () => {
         <h3>Frequently Asked Questions: Latest Government Jobs 2026</h3>
         {latestJobsFaqs.map((faq, i) => (
           <div key={i} style={{ marginBottom: '20px' }}>
-            <h4 style={{ color: '#000080', margin: '0 0 6px' }}>{faq.question}</h4>
-            <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.7' }}>{faq.answer}</p>
+            <h4 style={{ color: 'var(--primary)', margin: '0 0 6px' }}>{faq.question}</h4>
+            <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.7', color: 'var(--foreground-muted)' }}>{faq.answer}</p>
           </div>
         ))}
 

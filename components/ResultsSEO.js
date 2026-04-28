@@ -49,7 +49,7 @@ const ResultsSEO = () => {
         <h2>Sarkari Result 2026: How to Check Your Government Exam Results Online</h2>
 
         {/* GEO: Answer-first block */}
-        <div className="geo-answer-first" style={{ background: '#f0f4ff', border: '2px solid #000080', borderRadius: '6px', padding: '16px 20px', marginBottom: '24px' }}>
+        <div className="geo-answer-first seo-speakable-summary">
           <p><strong>Quick Answer:</strong> To check any Sarkari Result in 2026, visit SarkariResultCorner.com → Results section → click your exam → use the verified official link to the board&apos;s .gov.in portal → enter Roll Number + Date of Birth → download your scorecard PDF. We cover results for <strong>150+ exams</strong> across SSC, UPSC, RRB, IBPS, SBI, NTA, and all State PSCs — published within 30 minutes of official release, with step-by-step instructions for every major result.</p>
         </div>
 
@@ -103,8 +103,8 @@ const ResultsSEO = () => {
         <h3>Frequently Asked Questions: Sarkari Result 2026</h3>
         {resultsFaqs.map((faq, i) => (
           <div key={i} style={{ marginBottom: '20px' }}>
-            <h4 style={{ color: '#000080', margin: '0 0 6px' }}>{faq.question}</h4>
-            <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.7' }}>{faq.answer}</p>
+            <h4 style={{ color: 'var(--primary)', margin: '0 0 6px' }}>{faq.question}</h4>
+            <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.7', color: 'var(--foreground-muted)' }}>{faq.answer}</p>
           </div>
         ))}
 

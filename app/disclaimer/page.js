@@ -60,25 +60,26 @@ export default function DisclaimerPage() {
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
-        .legal-page { color: white; background: #0a0a0f; min-height: 100vh; font-family: 'Outfit', sans-serif; padding: 4rem 1rem; }
+        .legal-page { color: var(--foreground); background: var(--background); min-height: 100vh; font-family: 'Outfit', sans-serif; padding: 4rem 1rem; }
         .wrapper { max-width: 900px; margin: 0 auto; }
-        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: #94a3b8; text-decoration: none; margin-bottom: 2rem; }
-        .glass-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 2rem; padding: 5rem 4rem; backdrop-filter: blur(20px); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--foreground-muted); text-decoration: none; margin-bottom: 2rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 2rem; padding: 5rem 4rem; backdrop-filter: blur(var(--glass-blur)); }
         .hero { text-align: center; margin-bottom: 4rem; }
-        .title { font-size: 3.5rem; font-weight: 950; margin-bottom: 1rem; color: #ef4444; }
-        .subtitle { font-size: 1.2rem; color: #94a3b8; font-weight: 500; }
+        .title { font-size: 3.5rem; font-weight: 950; margin-bottom: 1rem; color: var(--danger); }
+        .subtitle { font-size: 1.2rem; color: var(--foreground-muted); font-weight: 500; }
         
-        .disclaimer-alert { display: flex; align-items: center; gap: 1.5rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 1.5rem; padding: 2rem; margin-bottom: 5rem; }
-        .icon-alert { color: #ef4444; flex-shrink: 0; }
-        .disclaimer-alert p { color: #fca5a5; font-weight: 700; font-size: 1.05rem; line-height: 1.1; margin: 0 !important; }
+        .disclaimer-alert { display: flex; align-items: center; gap: 1.5rem; background: var(--border-light); border: 1px solid var(--border); border-radius: 1.5rem; padding: 2rem; margin-bottom: 5rem; }
+        .icon-alert { color: var(--danger); flex-shrink: 0; }
+        .disclaimer-alert p { color: var(--foreground); font-weight: 700; font-size: 1.05rem; line-height: 1.1; margin: 0 !important; }
 
         .content-text section { margin-bottom: 4rem; }
-        .content-text h2 { color: #facc15; font-size: 1.75rem; font-weight: 950; margin-bottom: 1.5rem; letter-spacing: 0.5px; }
-        .content-text p { line-height: 2; color: #cbd5e1; font-size: 1.15rem; margin-bottom: 1.5rem; }
-        .content-text strong { color: #3b82f6; }
+        .content-text h2 { color: var(--primary); font-size: 1.75rem; font-weight: 950; margin-bottom: 1.5rem; letter-spacing: 0.5px; }
+        .content-text p { line-height: 2; color: var(--foreground-muted); font-size: 1.15rem; margin-bottom: 1.5rem; }
+        .content-text strong { color: var(--primary); }
         
-        .footer-notice { margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #94a3b8; font-style: italic; }
-        .footer-notice a { color: #3b82f6; font-weight: 800; font-style: normal; text-decoration: none; border-bottom: 2px solid #3b82f6; }
+        .footer-notice { margin-top: 6rem; padding-top: 4rem; border-top: 1px solid var(--border); text-align: center; color: var(--foreground-muted); font-style: italic; }
+        .footer-notice a { color: var(--primary); font-weight: 800; font-style: normal; text-decoration: none; border-bottom: 2px solid var(--primary); }
       `}} />
     </div>
   );

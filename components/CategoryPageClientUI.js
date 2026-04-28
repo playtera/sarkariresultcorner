@@ -72,9 +72,9 @@ export default function CategoryPageClientUI({ pageTitle, subtitle, items, seoCo
       <style dangerouslySetInnerHTML={{__html: `
         .category-page {
            min-height: 100vh;
-           background: #0a0a0f;
+           background: var(--background);
            font-family: 'Outfit', sans-serif;
-           color: white;
+           color: var(--foreground);
            padding-bottom: 4rem;
         }
         .wrapper {
@@ -83,11 +83,11 @@ export default function CategoryPageClientUI({ pageTitle, subtitle, items, seoCo
            padding: 2rem;
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--card);
+            border: 1px solid var(--border);
             border-radius: 1.5rem;
             padding: 2.5rem;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--glass-blur));
         }
         .page-header {
            margin-bottom: 2rem;
@@ -97,7 +97,7 @@ export default function CategoryPageClientUI({ pageTitle, subtitle, items, seoCo
            display: inline-flex;
            align-items: center;
            gap: 0.5rem;
-           color: #94a3b8;
+           color: var(--foreground-muted);
            text-decoration: none;
            font-weight: 500;
            font-size: 0.9rem;
@@ -107,16 +107,16 @@ export default function CategoryPageClientUI({ pageTitle, subtitle, items, seoCo
            top: 2.5rem;
         }
         .back-link:hover {
-           color: #60a5fa;
+           color: var(--primary);
         }
         .title {
            font-size: 2.5rem;
            font-weight: 800;
            margin-bottom: 0.5rem;
-           color: #f8fafc;
+           color: var(--foreground);
         }
         .subtitle {
-           color: #94a3b8;
+           color: var(--foreground-muted);
            margin-bottom: 2rem;
            font-size: 1.1rem;
         }
@@ -130,22 +130,22 @@ export default function CategoryPageClientUI({ pageTitle, subtitle, items, seoCo
            left: 1.25rem;
            top: 50%;
            transform: translateY(-50%);
-           color: #64748b;
+           color: var(--foreground-soft);
         }
         .search-input {
            width: 100%;
-           background: rgba(255, 255, 255, 0.05);
-           border: 1px solid rgba(255, 255, 255, 0.1);
+           background: var(--border-light);
+           border: 1px solid var(--border);
            border-radius: 999px;
            padding: 1rem 1rem 1rem 3rem;
-           color: white;
+           color: var(--foreground);
            font-size: 1rem;
            transition: all 0.3s;
         }
         .search-input:focus {
            outline: none;
-           border-color: #3b82f6;
-           background: rgba(59, 130, 246, 0.05);
+           border-color: var(--primary);
+           background: var(--card);
            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
         .job-grid {
@@ -155,7 +155,7 @@ export default function CategoryPageClientUI({ pageTitle, subtitle, items, seoCo
         }
         .empty-state {
            text-align: center;
-           color: #94a3b8;
+           color: var(--foreground-muted);
            padding: 4rem 2rem;
         }
 

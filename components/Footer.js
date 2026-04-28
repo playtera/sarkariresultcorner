@@ -19,21 +19,14 @@ const Footer = () => {
       { name: 'Privacy Policy', href: '/privacy-policy' },
       { name: 'Terms & Conditions', href: '/terms-and-conditions' },
       { name: 'Disclaimer', href: '/disclaimer' },
+      { name: 'Sitemap', href: '/sitemap.xml' },
     ],
     quickLinks: [
       { name: 'Latest Jobs', href: '/latest-jobs' },
       { name: 'Results', href: '/result' },
       { name: 'Admit Cards', href: '/admit-cards' },
       { name: 'Answer Key', href: '/answer-key' },
-      { name: 'Syllabus', href: '/syllabus' },
     ],
-    states: [
-      { name: 'UP - Uttar Pradesh', href: '/state/up' },
-      { name: 'Bihar', href: '/state/bihar' },
-      { name: 'Delhi', href: '/state/delhi' },
-      { name: 'Rajasthan', href: '/state/rajasthan' },
-      { name: 'MP - Madhya Pradesh', href: '/state/mp' },
-    ]
   };
 
   return (
@@ -43,7 +36,8 @@ const Footer = () => {
         <div className="footer-top">
           <div className="footer-intro">
             <Link href="/" className="footer-logo">
-              <Image src="/logo.png" alt="SarkariResultCorner" className="logo-img" width={160} height={48} />
+              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner" className="logo-img logo-light" width={200} height={56} />
+              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner" className="logo-img logo-dark" width={200} height={56} />
             </Link>
             <p className="footer-tagline">
               Connecting millions of aspirants with their dream government careers. Trust, accuracy, and speed at your fingertips.
@@ -70,10 +64,10 @@ const Footer = () => {
               SarkariResultCorner.com is India's leading portal for government job notifications, results, and career guidance. We provide verified information direct from official sources.
             </p>
             <div className="social-pill-container">
-               <a href="#" className="social-pill" aria-label="Facebook"><Globe size={18} /></a>
-               <a href="#" className="social-pill" aria-label="Twitter"><Share2 size={18} /></a>
-               <a href="#" className="social-pill" aria-label="Instagram"><Info size={18} /></a>
-               <a href="#" className="social-pill" aria-label="Youtube"><ExternalLink size={18} /></a>
+               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Globe size={18} /></a>
+               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><Share2 size={18} /></a>
+               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Info size={18} /></a>
+               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Youtube"><ExternalLink size={18} /></a>
             </div>
           </div>
 
@@ -90,33 +84,17 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="grid-col">
-            <h5 className="col-title">State Jobs</h5>
-            <ul className="footer-nav-list">
-              {footerLinks.states.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="nav-footer-link">
-                    <ChevronRight size={14} className="link-arrow" /> {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
 
           <div className="grid-col contact-col">
             <h5 className="col-title">Contact Us</h5>
             <div className="contact-details">
               <div className="contact-row">
                 <div className="icon-wrap"><Mail size={16} /></div>
-                <span>support@sarkariresultcorner.com</span>
+                <span>asksrcteam@gmail.com</span>
               </div>
               <div className="contact-row">
                 <div className="icon-wrap"><MapPin size={16} /></div>
                 <span>New Delhi, HQ India</span>
-              </div>
-              <div className="contact-row">
-                <div className="icon-wrap"><Phone size={16} /></div>
-                <span>+91-800-SARKARI</span>
               </div>
             </div>
           </div>
@@ -141,12 +119,12 @@ const Footer = () => {
 
       <style jsx>{`
         .footer-root {
-          background-color: #0a0a0f;
+          background-color: var(--background);
           padding: 6rem 0 2rem;
           margin-top: 6rem;
           position: relative;
           overflow: hidden;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid var(--border);
         }
         .footer-root::before {
           content: '';
@@ -172,11 +150,12 @@ const Footer = () => {
           min-width: 300px;
         }
         .logo-img {
-          height: 48px;
+          height: 56px;
+          width: auto;
           margin-bottom: 1.5rem;
         }
         .footer-tagline {
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--foreground-muted);
           font-size: 1.1rem;
           line-height: 1.6;
           max-width: 450px;
@@ -187,17 +166,17 @@ const Footer = () => {
           gap: 2.5rem;
           padding: 1.5rem 2.5rem;
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid var(--border);
+          background: var(--border-light);
         }
         .cta-text h4 {
           margin: 0 0 0.25rem;
           font-size: 1.25rem;
-          color: white;
+          color: var(--foreground);
         }
         .cta-text p {
           margin: 0;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--foreground-soft);
           font-size: 0.9rem;
         }
         .cta-footer-btn {
@@ -218,12 +197,12 @@ const Footer = () => {
         }
         .footer-divider {
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+          background: linear-gradient(90deg, transparent, var(--border), transparent);
           margin-bottom: 4rem;
         }
         .footer-main-grid {
           display: grid;
-          grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+          grid-template-columns: 1.5fr 1fr 1.2fr;
           gap: 4rem;
           margin-bottom: 5rem;
         }
@@ -232,7 +211,7 @@ const Footer = () => {
           font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          color: white;
+          color: var(--foreground);
           margin-bottom: 2rem;
           position: relative;
         }
@@ -247,7 +226,7 @@ const Footer = () => {
           border-radius: 2px;
         }
         .about-text {
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--foreground-soft);
           line-height: 1.7;
           margin-bottom: 2rem;
         }
@@ -259,12 +238,12 @@ const Footer = () => {
           width: 44px;
           height: 44px;
           border-radius: 14px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--border-light);
+          border: 1px solid var(--border);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--foreground-muted);
           transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .social-pill:hover {
@@ -285,7 +264,7 @@ const Footer = () => {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--foreground-soft);
           font-weight: 500;
           transition: all 0.2s ease;
         }
@@ -296,7 +275,7 @@ const Footer = () => {
           transition: all 0.3s ease;
         }
         .nav-footer-link:hover {
-          color: white;
+          color: var(--foreground);
           padding-left: 5px;
         }
         .nav-footer-link:hover .link-arrow {
@@ -312,7 +291,7 @@ const Footer = () => {
           display: flex;
           align-items: center;
           gap: 1rem;
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--foreground-muted);
         }
         .icon-wrap {
           width: 36px;
@@ -326,7 +305,7 @@ const Footer = () => {
         }
         .footer-bottom {
           padding-top: 2.5rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid var(--border);
         }
         .bottom-content {
           display: flex;
@@ -336,7 +315,7 @@ const Footer = () => {
           flex-wrap: wrap;
         }
         .copyright-text {
-          color: rgba(255, 255, 255, 0.4);
+          color: var(--foreground-soft);
           font-size: 0.95rem;
         }
         .legal-links {
@@ -345,11 +324,11 @@ const Footer = () => {
         }
         .legal-footer-link {
           font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.4);
+          color: var(--foreground-soft);
           transition: color 0.2s;
         }
         .legal-footer-link:hover {
-          color: white;
+          color: var(--foreground);
         }
 
         @media (max-width: 1024px) {

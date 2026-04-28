@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, Home, Send, Bell } from 'lucide-react';
+import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, Home, Send, Bell, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 const Header = () => {
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -27,7 +29,6 @@ const Header = () => {
     { name: 'Results', href: '/result', icon: <CheckCircle size={18} /> },
     { name: 'Admit Card', href: '/admit-cards', icon: <FileText size={18} /> },
     { name: 'Answer Key', href: '/answer-key', icon: <GraduationCap size={18} /> },
-    { name: 'Syllabus', href: '/syllabus', icon: <FileText size={18} /> },
   ];
 
   return (
@@ -35,7 +36,8 @@ const Header = () => {
       <div className="container header-content">
         <Link href="/" className="logo-area">
           <div className="logo-glow"></div>
-          <Image src="/logo.png" alt="SarkariResultCorner.com" className="site-logo" width={180} height={60} priority />
+          <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner.com" className="site-logo logo-light" width={220} height={60} priority />
+          <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com" className="site-logo logo-dark" width={220} height={60} priority />
         </Link>
 
         {/* Desktop Nav */}
@@ -60,6 +62,10 @@ const Header = () => {
             <Search size={20} />
           </button>
 
+          <button className="icon-action-btn theme-toggle" onClick={toggleTheme} aria-label="Toggle Theme">
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+
           <button className="icon-action-btn notify-btn" aria-label="Notifications">
             <Bell size={20} />
             <span className="notify-badge"></span>
@@ -80,8 +86,14 @@ const Header = () => {
       <div className={`mobile-overlay ${isOpen ? 'show' : ''}`} onClick={() => setIsOpen(false)}>
         <nav className="mobile-drawer glass" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-drawer-header">
-            <Image src="/logo.png" alt="SarkariResultCorner.com" className="drawer-logo" width={120} height={42} />
-            <button className="close-drawer" onClick={() => setIsOpen(false)}><X size={24} /></button>
+            <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner.com" className="drawer-logo logo-light" width={160} height={42} />
+            <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com" className="drawer-logo logo-dark" width={160} height={42} />
+            <div className="mobile-header-actions">
+              <button className="icon-action-btn theme-toggle-mobile" onClick={toggleTheme} aria-label="Toggle Theme">
+                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              <button className="close-drawer" onClick={() => setIsOpen(false)}><X size={24} /></button>
+            </div>
           </div>
 
           <div className="drawer-scroll-area">
@@ -117,14 +129,15 @@ const Header = () => {
         }
         .header-scrolled {
           padding: 0.75rem 0;
-          background: rgba(10, 10, 15, 0.85);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+          background: var(--glass-bg);
+          backdrop-filter: blur(var(--glass-blur));
+          -webkit-backdrop-filter: blur(var(--glass-blur));
+          border-bottom: 1px solid var(--border);
+          box-shadow: var(--shadow-md);
         }
         .header-scrolled .site-logo {
           height: 44px;
+          width: auto;
         }
         .header-content {
           display: flex;
@@ -137,6 +150,7 @@ const Header = () => {
           display: flex;
           align-items: center;
           transition: transform 0.3s ease;
+          z-index: 10;
         }
         .logo-area:hover {
           transform: scale(1.02);
@@ -153,7 +167,6 @@ const Header = () => {
         .site-logo {
           height: 60px;
           width: auto;
-          display: block;
         }
         
         /* Desktop Navigation */
@@ -171,7 +184,7 @@ const Header = () => {
         .nav-link-modern {
           position: relative;
           padding: 0.6rem 1.25rem;
-          color: rgba(255, 255, 255, 0.7);
+          color: var(--foreground-muted);
           font-family: 'Outfit', sans-serif;
           font-weight: 600;
           font-size: 0.85rem;
@@ -184,8 +197,8 @@ const Header = () => {
           align-items: center;
         }
         .nav-link-modern:hover {
-          color: white;
-          background: rgba(255, 255, 255, 0.05);
+          color: var(--foreground);
+          background: var(--border-light);
         }
         .nav-link-modern.active {
           color: var(--primary);
@@ -213,16 +226,16 @@ const Header = () => {
           align-items: center;
           justify-content: center;
           border-radius: 12px;
-          color: rgba(255, 255, 255, 0.8);
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: var(--foreground-muted);
+          background: var(--border-light);
+          border: 1px solid var(--border);
           transition: all 0.3s ease;
           position: relative;
         }
         .icon-action-btn:hover {
-          background: rgba(255, 255, 255, 0.1);
-          color: white;
-          border-color: rgba(255, 255, 255, 0.2);
+          background: var(--border);
+          color: var(--foreground);
+          border-color: var(--secondary);
           transform: translateY(-2px);
         }
         .notify-badge {
@@ -233,7 +246,7 @@ const Header = () => {
           height: 8px;
           background: var(--danger);
           border-radius: 50%;
-          border: 2px solid #0a0a0f;
+          border: 2px solid var(--background);
         }
 
         .premium-cta-btn {
@@ -291,7 +304,8 @@ const Header = () => {
           width: 85%;
           max-width: 340px;
           height: 100%;
-          background: rgba(15, 23, 42, 0.95);
+          background: var(--background);
+          opacity: 0.98;
           display: flex;
           flex-direction: column;
           transform: translateX(100%);
@@ -305,10 +319,16 @@ const Header = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid var(--border);
+        }
+        .mobile-header-actions {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
         }
         .drawer-logo {
           height: 42px;
+          width: auto;
         }
         .drawer-scroll-area {
           flex: 1;
@@ -327,7 +347,7 @@ const Header = () => {
           align-items: center;
           gap: 1rem;
           padding: 1rem;
-          color: rgba(255, 255, 255, 0.8);
+          color: var(--foreground-muted);
           font-size: 1.125rem;
           font-weight: 600;
           border-radius: 12px;
@@ -347,12 +367,12 @@ const Header = () => {
         }
         .drawer-footer {
           padding: 2rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid var(--border);
           text-align: center;
         }
         .drawer-caption {
           font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--foreground-soft);
           margin-bottom: 1rem;
         }
         .drawer-cta {
@@ -368,7 +388,7 @@ const Header = () => {
         }
 
         @media (max-width: 1100px) {
-          .site-logo { height: 42px; }
+          .site-logo { height: 42px; width: auto; }
           .nav-link-modern { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
         }
 

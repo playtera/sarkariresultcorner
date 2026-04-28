@@ -49,11 +49,11 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sa
           display: flex;
           flex-direction: column;
           padding: 1.25rem 1.5rem;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--card);
+          border: 1px solid var(--border);
           border-radius: 1rem;
           text-decoration: none;
-          color: white;
+          color: var(--foreground);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           backdrop-filter: blur(10px);
@@ -70,13 +70,13 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sa
           transition: background 0.3s ease;
         }
         .job-card-link:hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: rgba(59, 130, 246, 0.4);
+          background: var(--border-light);
+          border-color: var(--primary);
           transform: translateY(-2px);
           box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
         .job-card-link:hover::before {
-          background: #3b82f6;
+          background: var(--primary);
         }
         .job-card-header {
           display: flex;
@@ -115,7 +115,7 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sa
           align-items: center;
           gap: 0.35rem;
           font-size: 0.8rem;
-          color: #94a3b8;
+          color: var(--foreground-muted);
           margin-left: auto;
           font-weight: 500;
         }
@@ -124,7 +124,7 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sa
           font-weight: 700;
           line-height: 1.4;
           margin-bottom: 1rem;
-          color: #f8fafc;
+          color: var(--foreground);
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
@@ -135,7 +135,7 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sa
           justify-content: space-between;
           align-items: flex-end;
           margin-top: auto;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid var(--border);
           padding-top: 1rem;
         }
         .job-meta {
@@ -152,27 +152,27 @@ const JobCard = ({ title, date, lastDate, link, category, isNew, isImportant, sa
           gap: 0.4rem;
         }
         .last-date strong {
-          color: #cbd5e1;
+          color: var(--foreground-muted);
         }
         .job-category {
           display: flex;
           align-items: center;
           gap: 0.35rem;
           font-size: 0.8rem;
-          color: #60a5fa;
+          color: var(--primary);
           font-weight: 500;
         }
         .arrow-icon {
-          color: #64748b;
+          color: var(--foreground-soft);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .job-card-link:hover .arrow-icon {
-          color: #3b82f6;
+          color: var(--primary);
           transform: translateX(4px);
         }
         
         .important .job-card-link {
-          background: linear-gradient(145deg, rgba(239, 68, 68, 0.05), rgba(255, 255, 255, 0.03));
+          background: linear-gradient(145deg, rgba(239, 68, 68, 0.05), var(--card));
           border: 1px solid rgba(239, 68, 68, 0.2);
         }
         .important .job-card-link:hover {

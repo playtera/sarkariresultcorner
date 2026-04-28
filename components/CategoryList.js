@@ -36,8 +36,8 @@ const CategoryList = ({ title, icon, items, viewMoreLink, color = 'primary' }) =
 
       <style jsx>{`
         .category-section {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: var(--card);
+          border: 1px solid var(--border);
           border-radius: 1.5rem;
           padding: 1.75rem;
           height: 100%;
@@ -62,7 +62,7 @@ const CategoryList = ({ title, icon, items, viewMoreLink, color = 'primary' }) =
         .category-section:hover {
           transform: translateY(-4px);
           box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.5);
-          border-color: rgba(255, 255, 255, 0.1);
+          border-color: var(--secondary);
         }
         .category-header {
           display: flex;
@@ -70,7 +70,7 @@ const CategoryList = ({ title, icon, items, viewMoreLink, color = 'primary' }) =
           align-items: center;
           margin-bottom: 1.5rem;
           padding-bottom: 1rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid var(--border);
         }
         .category-info {
           display: flex;
@@ -90,7 +90,7 @@ const CategoryList = ({ title, icon, items, viewMoreLink, color = 'primary' }) =
         .category-title {
           font-size: 1.25rem;
           font-weight: 800;
-          color: #f8fafc;
+          color: var(--foreground);
           letter-spacing: -0.01em;
         }
         .view-more {
@@ -99,16 +99,16 @@ const CategoryList = ({ title, icon, items, viewMoreLink, color = 'primary' }) =
           gap: 0.4rem;
           font-size: 0.85rem;
           font-weight: 600;
-          color: #94a3b8;
+          color: var(--foreground-muted);
           transition: all 0.2s ease;
-          background: rgba(255, 255, 255, 0.05);
+          background: var(--border-light);
           padding: 0.4rem 0.8rem;
           border-radius: 999px;
           text-decoration: none;
         }
         .view-more:hover {
           gap: 0.6rem;
-          color: white;
+          color: var(--foreground);
           background: rgba(59, 130, 246, 0.2);
         }
         .category-items {

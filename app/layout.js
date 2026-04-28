@@ -1,6 +1,7 @@
 import './globals.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { ThemeProvider } from '../context/ThemeContext';
 
 export const metadata = {
   title: 'Sarkari Result 2026 - SarkariResultCorner | Latest Govt Jobs, Admit Cards & Results',
@@ -105,6 +106,11 @@ export default function RootLayout({ children }) {
     <html lang="en" data-scroll-behavior="smooth">
       <head>
         <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2635309868525139"
+          crossorigin="anonymous"
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
@@ -117,11 +123,15 @@ export default function RootLayout({ children }) {
         <meta name="language" content="English" />
         <meta name="revisit-after" content="1 day" />
         <link rel="me" href="https://t.me/sarkariresult_corner" />
-      </head>
+        <link rel="icon" href="/src_lightmode.png" media="(prefers-color-scheme: light)" />
+        <link rel="icon" href="/src_darkmode.png" media="(prefers-color-scheme: dark)" />
+        <link rel="icon" href="/src_darkmode.png" /></head>
       <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

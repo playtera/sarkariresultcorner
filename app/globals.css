@@ -13,9 +13,12 @@
   /* Backgrounds (Dark Mode Default) */
   --background: #0a0a0f;
   --foreground: #f8fafc;
+  --foreground-muted: rgba(248, 250, 252, 0.7);
+  --foreground-soft: rgba(248, 250, 252, 0.5);
   --card: rgba(255, 255, 255, 0.03);
   --card-foreground: #ffffff;
   --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.05);
 
   /* Glassmorphism */
   --glass-bg: rgba(15, 23, 42, 0.7);
@@ -31,15 +34,44 @@
   --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
+[data-theme='light'] {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --foreground-muted: rgba(15, 23, 42, 0.7);
+  --foreground-soft: rgba(15, 23, 42, 0.5);
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.05);
+  --secondary: #64748b;
+}
+
 [data-theme='dark'] {
   --background: #0f172a;
   --foreground: #f8fafc;
+  --foreground-muted: rgba(248, 250, 252, 0.7);
+  --foreground-soft: rgba(248, 250, 252, 0.5);
   --card: #1e293b;
   --card-foreground: #f1f5f9;
   --border: #334155;
+  --border-light: rgba(255, 255, 255, 0.05);
 
   --glass-bg: rgba(15, 23, 42, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Theme-Aware Logo Logic */
+.logo-light { display: none !important; }
+.logo-dark { display: block !important; }
+
+[data-theme='light'] .logo-light { display: block !important; }
+[data-theme='light'] .logo-dark { display: none !important; }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .logo-light { display: block !important; }
+  :root:not([data-theme='dark']) .logo-dark { display: none !important; }
 }
 
 /* Base Styles */
@@ -53,6 +85,8 @@ html,
 body {
   height: 100%;
   font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--foreground);
   background-color: var(--background);
   scroll-behavior: smooth;
@@ -98,7 +132,7 @@ h2::after {
 
 h3 {
   font-size: 1.75rem;
-  color: #60a5fa;
+  color: var(--primary);
 }
 
 h4 {
@@ -171,10 +205,10 @@ h4 {
 }
 
 .sarkari-content-area li:hover::before,
-.sarkari-short-info li:hover::before {
+.sarkari-content-area li:hover::before {
   opacity: 1;
   transform: scale(1.3) rotate(180deg);
-  background: #60a5fa;
+  background: var(--primary-hover);
 }
 
 /* Modern Highlights */
@@ -225,14 +259,15 @@ button {
 /* GEO/SEO Specific Classes */
 .seo-speakable-summary,
 .geo-answer-first {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)) !important;
-  border: 2px solid rgba(59, 130, 246, 0.3) !important;
+  background: var(--card) !important;
+  border: 1px solid var(--primary) !important;
   border-radius: 1rem !important;
-  padding: 1.5rem 2rem !important;
+  padding: 2rem !important;
   margin-bottom: 2.5rem !important;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-top: 1.5rem !important;
+  position: relative !important;
+  box-shadow: var(--shadow-md);
+  color: var(--foreground) !important;
 }
 
 .seo-speakable-summary::before,
@@ -255,7 +290,7 @@ button {
 
 .seo-speakable-summary p,
 .geo-answer-first p {
-  color: #f1f5f9 !important;
+  color: var(--foreground) !important;
   font-size: 1.15rem !important;
   line-height: 1.7 !important;
   margin-bottom: 0 !important;
@@ -263,7 +298,7 @@ button {
 
 .seo-speakable-summary strong,
 .geo-answer-first strong {
-  color: #60a5fa !important;
+  color: var(--primary) !important;
   font-weight: 700;
 }
 
@@ -415,7 +450,7 @@ button {
 
 .sarkari-content-area table td,
 .sarkari-content-area table th {
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--border) !important;
   padding: 15px 20px !important;
   text-align: center !important;
   font-size: 0.95rem !important;
@@ -424,21 +459,21 @@ button {
 }
 
 .sarkari-content-area table th {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.15)) !important;
-  color: #fff !important;
+  background: var(--primary) !important;
+  color: white !important;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 0.85rem !important;
-  border-bottom: 2px solid var(--primary) !important;
+  border-bottom: 2px solid var(--primary-hover) !important;
 }
 
 .sarkari-content-area table tr:hover td {
-  background: rgba(59, 130, 246, 0.05) !important;
+  background: var(--border-light) !important;
 }
 
 .sarkari-content-area strong {
-  color: #60a5fa !important;
+  color: var(--primary) !important;
 }
 
 .sarkari-content-area a {
@@ -718,8 +753,8 @@ button {
     display: block !important;
     width: 100% !important;
     padding: 1.25rem 1rem !important;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1)) !important;
-    color: #fff !important;
+    background: var(--primary) !important;
+    color: white !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.1em !important;
@@ -749,7 +784,7 @@ button {
   }
 }
 
-/* SCRAPED UI SPECIFIC OVERRIDES - Remove Glass & Overshadow */
+/* SCRAPED UI SPECIFIC OVERRIDES - Theme Aware */
 .scraped-tables,
 .scraped-tables *,
 .scraped-tables tr,
@@ -765,25 +800,25 @@ button {
 
 .scraped-tables tr {
   margin-bottom: 1.5rem !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  background: rgba(255, 255, 255, 0.01) !important;
+  border: 1px solid var(--border) !important;
+  background: var(--card) !important;
 }
 
 .scraped-tables td,
 .scraped-tables th {
   border: none !important;
   background: transparent !important;
+  color: var(--foreground) !important;
 }
 
 /* Ensure mobile hybrid headers are also flat */
 @media (max-width: 991px) {
-
   .scraped-tables th,
   .scraped-tables tr:has(td:nth-child(3)) td:nth-child(1),
   .scraped-tables tr:has(td:nth-child(3)) td:nth-child(2) {
     background: transparent !important;
     background-image: none !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-bottom: 1px solid var(--border) !important;
   }
 }
 
@@ -801,4 +836,73 @@ img {
 
 a {
   word-break: break-all !important;
+}
+/* Sarkari Result Post Styles (Theme-Aware) */
+.sarkari-wrapper {
+  padding: 2rem 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sarkari-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  color: var(--foreground);
+}
+
+.sarkari-title-box {
+  padding: 1.5rem;
+  text-align: center;
+  color: white; 
+}
+
+.sarkari-title-box h1 {
+  margin: 0;
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.sarkari-content-area {
+  padding: 1.5rem;
+}
+
+.scraped-tables table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin-bottom: 2rem !important;
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.scraped-tables td, .scraped-tables th {
+  padding: 12px !important;
+  border: 1px solid var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.scraped-tables th {
+  background: var(--border-light) !important;
+  font-weight: 700 !important;
+}
+
+.scraped-tables a {
+  color: var(--primary) !important;
+  font-weight: 600 !important;
+}
+
+.scraped-tables a:hover {
+  text-decoration: underline !important;
+}
+
+.info-block {
+  background: var(--border-light);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  color: var(--foreground);
 }
