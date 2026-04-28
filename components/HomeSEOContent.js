@@ -2,9 +2,91 @@ import React from 'react';
 import styles from './HomeSEOContent.module.css';
 import FAQAccordion from './FAQAccordion';
 
+const faqs = [
+  {
+    question: "Where can I find the most accurate Sarkari Result?",
+    answer: "SarkariResultCorner.com provides the most accurate Sarkari Results by linking directly to official government servers (.gov.in, .nic.in domains). Every result link is cross-verified before publication. For SSC, UPSC, RRB, and state PSC results, always bookmark SarkariResultCorner.com as your primary resource."
+  },
+  {
+    question: "How often is the government job data updated on SarkariResultCorner.com?",
+    answer: "Our team monitors official government gazettes, departmental portals, and employment newspapers around the clock. New job notifications typically appear on SarkariResultCorner.com within minutes of official publication. We cover over 500+ recruitment boards across India including SSC, UPSC, RRB, IBPS, SBI, and all State PSCs."
+  },
+  {
+    question: "Are the links on SarkariResultCorner.com safe to use?",
+    answer: "Yes. SarkariResultCorner.com only provides direct links to official .gov.in, .nic.in, or verified university domains. We never redirect users to third-party advertisement pages. No payment or personal information is ever required on our platform."
+  },
+  {
+    question: "How do I download my admit card if I forget my registration number?",
+    answer: "SarkariResultCorner.com provides direct links to the official 'Forgot Registration Number' retrieval pages of each recruitment board. Most government portals allow recovery using your name, father's name, and date of birth. We list these direct retrieval utilities alongside every admit card notification."
+  },
+  {
+    question: "Does SarkariResultCorner.com charge any fee for job alerts?",
+    answer: "No. All job alerts, result updates, admit card notifications, and answer key information on SarkariResultCorner.com are completely free of charge. There is no subscription, membership fee, or hidden cost."
+  },
+  {
+    question: "Which government exams does SarkariResultCorner.com cover?",
+    answer: "SarkariResultCorner.com covers all major Indian competitive exams including SSC CGL, CHSL, MTS, CPO; UPSC Civil Services, NDA, CDS; RRB NTPC, Group D, ALP; IBPS PO, Clerk, SO; SBI PO and Clerk; NTA NEET, JEE; and all state PSC exams like UPPSC, BPSC, RPSC, MPPSC, HSSC, and more."
+  },
+  {
+    question: "How do I check my Sarkari Result online?",
+    answer: "To check your Sarkari Result: 1) Visit SarkariResultCorner.com and find your exam result. 2) Click the official result link. 3) Enter your Roll Number and Date of Birth on the official portal. 4) Download your scorecard in PDF format. SarkariResultCorner.com provides step-by-step instructions for every major result announcement."
+  }
+];
+
 const HomeSEOContent = () => {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
+  // SpeakableSpecification — tells AI/voice engines which content to read/cite
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "name": "SarkariResultCorner – India\'s Government Jobs & Sarkari Result Portal",
+    "headline": "Navigating the Government Recruitment Landscape: SarkariResultCorner.com Your Primary Resource",
+    "description": "SarkariResultCorner.com provides real-time updates on Sarkari Results, government job notifications, admit cards, and answer keys for SSC, UPSC, RRB, IBPS, SBI, and all state PSC exams.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SarkariResultCorner",
+      "url": "https://sarkariresultcorner.com",
+      "logo": { "@type": "ImageObject", "url": "https://sarkariresultcorner.com/og-image.jpg" }
+    },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".seo-speakable-summary", "h2", "h3"]
+    },
+    "about": [
+      { "@type": "Thing", "name": "Sarkari Result" },
+      { "@type": "Thing", "name": "Government Jobs India" },
+      { "@type": "Thing", "name": "SSC CGL" },
+      { "@type": "Thing", "name": "UPSC Civil Services" },
+      { "@type": "Thing", "name": "RRB NTPC" },
+      { "@type": "Thing", "name": "Admit Card Download" }
+    ],
+    "keywords": "Sarkari Result, Government Jobs 2026, SSC CGL, UPSC, RRB NTPC, Admit Card, Online Form",
+    "inLanguage": "en-IN",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://sarkariresultcorner.com" }
+  };
+
   return (
     <div className={styles.seoContentWrapper}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <div className={styles.seoInner}>
         <h2>Navigating the Government Recruitment Landscape: SarkariResultCorner.com Your Primary Resource</h2>
 
@@ -58,28 +140,7 @@ const HomeSEOContent = () => {
         <h3>The Future of Government Careers in India</h3>
         <p>Government service remains one of the most respected paths in India, offering stability and a direct way to contribute to the nation's progress. As departments digitalize, the transparency of the recruitment process has reached new heights. SarkariResultCorner.com is committed to maintaining this transparency by providing unadulterated, verified information. We are your partner in this journey, from the first time you look for a notification to the final day you check your name in the selection list.</p>
 
-        <FAQAccordion faqs={[
-          {
-            question: "Where can I find the most accurate Sarkari Result?",
-            answer: "You should always rely on SarkariResultCorner.com for verified links that point directly to the official government servers. We cross-verify every link before publication to ensure you are not misdirected. Our team takes pride in filtering out the noise and providing only legitimate resources."
-          },
-          {
-            question: "How often is the government job data updated on the portal?",
-            answer: "Our team monitors official gazettes, departmental websites, and employment newspapers 24/7. When a notification is issued, it typically appears on our portal within minutes of the official release. We understand that in the world of competitive exams, even a few hours' delay can be critical."
-          },
-          {
-            question: "Are the links on SarkariResultCorner.com safe to use?",
-            answer: "Absolutely. We prioritize user security by only providing links to official .gov.in, .nic.in, or university domains. This protects you from phishing attempts and ensures your personal data remains secure during the application process. We never ask for sensitive payment information on our platform."
-          },
-          {
-            question: "How do I download my admit card if I forget my registration number?",
-            answer: "We provide guide links to the \"Forget Password\" or \"Find Registration ID\" pages of official boards. Most portals allow you to retrieve your details using your name, father's name, and date of birth. SarkariResultCorner.com provides the direct links to these retrieval utilities for your convenience."
-          },
-          {
-            question: "Does SarkariResultCorner.com charge any fee for job alerts?",
-            answer: "No, all information and job alerts on SarkariResultCorner.com are provided absolutely free of charge. We are committed to helping students find the best opportunities without any financial burden."
-          }
-        ]} />
+        <FAQAccordion faqs={faqs} />
 
         <div style={{ marginTop: '3rem' }}>
           <h3>Final Thoughts</h3>

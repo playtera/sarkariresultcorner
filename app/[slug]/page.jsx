@@ -1,5 +1,5 @@
 import { client } from '../../lib/sanity/client'
-import { getPageMetadata } from '../../lib/sanity/seo'
+import { getPageMetadata, getPostSchemaData } from '../../lib/sanity/seo'
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../../lib/sanity/image'
 import PrintButton from '../../components/PrintButton'
@@ -11,10 +11,23 @@ export async function generateMetadata({ params }) {
     const metadata = await getPageMetadata(slug)
     if (metadata) return metadata
 
-    // Default metadata for scraped content
+    // Default metadata for scraped content — include canonical to prevent duplicate content
+    const cleanSlug = slug.replace(/^\/+/, '').replace(/\/+$/, '')
+    const titleFromSlug = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
     return {
-      title: `${slug.replace(/-/g, ' ').toUpperCase()} - SarkariResultCorner`,
-      description: `Get latest updates on ${slug.replace(/-/g, ' ')} recruitment notifications and details.`
+      title: `${titleFromSlug} - SarkariResultCorner`,
+      description: `Get the latest updates, vacancy details, eligibility, and application links for ${titleFromSlug} at SarkariResultCorner.com.`,
+      alternates: {
+        canonical: `https://sarkariresultcorner.com/${cleanSlug}`,
+      },
+      openGraph: {
+        title: `${titleFromSlug} - SarkariResultCorner`,
+        description: `Get the latest updates, vacancy details, eligibility, and application links for ${titleFromSlug} at SarkariResultCorner.com.`,
+        url: `https://sarkariresultcorner.com/${cleanSlug}`,
+        type: 'article',
+        siteName: 'SarkariResultCorner',
+        images: [{ url: 'https://sarkariresultcorner.com/og-image.jpg', width: 1200, height: 630 }],
+      }
     }
   } catch (e) {
     return { title: 'Notification Details - SarkariResultCorner' }
@@ -157,15 +170,54 @@ export default async function PostPage({ params }) {
     return <ScrapedPostUI post={post} />;
   }
 
-  return <SanityPostUI post={post} />;
+  // Fetch additional schema data for Sanity posts (author, dates)
+  const schemaData = await getPostSchemaData(slug).catch(() => null);
+  return <SanityPostUI post={post} schemaData={schemaData} />;
 }
 
 // ==========================================
 // 1. UI FOR SCRAPED CONTENT (Real-time)
 // ==========================================
 function ScrapedPostUI({ post }) {
+  const now = new Date().toISOString();
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": post.title,
+    "name": post.title,
+    "description": `Latest updates and details for ${post.title} - eligibility, dates, and application links.`,
+    "publisher": {
+      "@type": "Organization",
+      "name": "SarkariResultCorner",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://sarkariresultcorner.com/og-image.jpg"
+      }
+    },
+    "datePublished": now,
+    "dateModified": now,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": typeof window !== 'undefined' ? window.location.href : 'https://sarkariresultcorner.com'
+    },
+    "inLanguage": "en-IN",
+    "keywords": "Sarkari Result, Government Jobs, Recruitment 2026, India"
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sarkariresultcorner.com" },
+      { "@type": "ListItem", "position": 2, "name": "Live Updates", "item": "https://sarkariresultcorner.com/latest-jobs" },
+      { "@type": "ListItem", "position": 3, "name": post.title }
+    ]
+  };
+
   return (
     <div className="sarkari-wrapper">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="sarkari-card">
         {/* Main Header Title Box */}
         <header className="sarkari-title-box" style={{ backgroundColor: '#000080' }}>
@@ -235,9 +287,89 @@ function ScrapedPostUI({ post }) {
 // ==========================================
 // 2. UI FOR SANITY CONTENT (Manual / CMS)
 // ==========================================
-function SanityPostUI({ post }) {
+function SanityPostUI({ post, schemaData }) {
+  const publishedAt = schemaData?.publishedAt || post.publishedAt || post._createdAt || new Date().toISOString();
+  const modifiedAt = schemaData?._updatedAt || post._updatedAt || publishedAt;
+  const authorName = schemaData?.author || post.author || 'SarkariResultCorner Editorial Team';
+  const pageUrl = `https://sarkariresultcorner.com/${schemaData?.slug || post.slug?.current || ''}`;
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": post.title,
+    "name": post.title,
+    "description": schemaData?.seo?.description || post.seo?.description || `Get the latest updates, vacancy details, eligibility, and application links for ${post.title}.`,
+    "image": post.mainImage ? [urlFor(post.mainImage).width(1200).height(630).url()] : ["https://sarkariresultcorner.com/og-image.jpg"],
+    "datePublished": publishedAt,
+    "dateModified": modifiedAt,
+    "author": {
+      "@type": "Person",
+      "name": authorName,
+      "worksFor": { "@type": "Organization", "name": "SarkariResultCorner", "url": "https://sarkariresultcorner.com" }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SarkariResultCorner",
+      "logo": { "@type": "ImageObject", "url": "https://sarkariresultcorner.com/og-image.jpg" }
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": pageUrl },
+    "inLanguage": "en-IN",
+    "keywords": schemaData?.seo?.keywords?.join(', ') || "Sarkari Result, Government Jobs, Recruitment 2026, India"
+  };
+
+  // JobPosting schema — enables Google Jobs rich results for recruitment posts
+  const jobPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    "title": post.title,
+    "description": schemaData?.seo?.description || `Apply online for ${post.title}. Check eligibility, vacancy details, important dates, and application fee at SarkariResultCorner.com.`,
+    "datePosted": publishedAt,
+    "validThrough": (() => {
+      // Default validThrough = 90 days from publishedAt
+      const d = new Date(publishedAt);
+      d.setDate(d.getDate() + 90);
+      return d.toISOString();
+    })(),
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "Government of India / State Governments",
+      "sameAs": "https://india.gov.in"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressLocality": "India"
+      }
+    },
+    "employmentType": "FULL_TIME",
+    "jobBenefits": "Government job with pension, job security, allowances as per 7th Pay Commission",
+    "industry": "Government / Public Sector",
+    "occupationalCategory": "Government Jobs",
+    "url": pageUrl,
+    "directApply": false,
+    "applicantLocationRequirements": {
+      "@type": "Country",
+      "name": "India"
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sarkariresultcorner.com" },
+      { "@type": "ListItem", "position": 2, "name": "Latest Jobs", "item": "https://sarkariresultcorner.com/latest-jobs" },
+      { "@type": "ListItem", "position": 3, "name": post.title }
+    ]
+  };
+
   return (
     <div className="sarkari-wrapper">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="sarkari-card">
         {/* Main Header Title Box */}
         <header className="sarkari-title-box" style={{ backgroundColor: '#0000FF' }}>

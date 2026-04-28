@@ -1,4 +1,4 @@
-﻿import { FileText } from 'lucide-react'
+import { FileText } from 'lucide-react'
 import { HtmlBodyEditor } from '../components/HtmlBodyEditor'
 
 export default {
@@ -36,6 +36,13 @@ export default {
       title: 'Published at',
       type: 'datetime',
       description: 'Leave blank to publish now, or set a future date to schedule.',
+    },
+    {
+      name: 'author',
+      title: 'Author / Editor',
+      type: 'string',
+      description: 'Name of the person who wrote or last updated this post (used for E-E-A-T schema).',
+      initialValue: 'SarkariResultCorner Editorial Team',
     },
     {
       name: 'status',

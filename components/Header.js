@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, Home, Send, Bell } from 'lucide-react';
@@ -34,7 +35,7 @@ const Header = () => {
       <div className="container header-content">
         <Link href="/" className="logo-area">
           <div className="logo-glow"></div>
-          <img src="/logo.png" alt="SarkariResultCorner.com" className="site-logo" />
+          <Image src="/logo.png" alt="SarkariResultCorner.com" className="site-logo" width={180} height={60} priority />
         </Link>
 
         {/* Desktop Nav */}
@@ -79,7 +80,7 @@ const Header = () => {
       <div className={`mobile-overlay ${isOpen ? 'show' : ''}`} onClick={() => setIsOpen(false)}>
         <nav className="mobile-drawer glass" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-drawer-header">
-            <img src="/logo.png" alt="SarkariResultCorner.com" className="drawer-logo" />
+            <Image src="/logo.png" alt="SarkariResultCorner.com" className="drawer-logo" width={120} height={42} />
             <button className="close-drawer" onClick={() => setIsOpen(false)}><X size={24} /></button>
           </div>
 

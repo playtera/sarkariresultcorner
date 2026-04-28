@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Mail, MapPin, Phone, ExternalLink, Globe, Share2, Info, Bell, Send, ChevronRight } from 'lucide-react';
@@ -42,7 +43,7 @@ const Footer = () => {
         <div className="footer-top">
           <div className="footer-intro">
             <Link href="/" className="footer-logo">
-              <img src="/logo.png" alt="SarkariResultCorner" className="logo-img" />
+              <Image src="/logo.png" alt="SarkariResultCorner" className="logo-img" width={160} height={48} />
             </Link>
             <p className="footer-tagline">
               Connecting millions of aspirants with their dream government careers. Trust, accuracy, and speed at your fingertips.
