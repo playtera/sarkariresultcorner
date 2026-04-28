@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'About Us - SarkariResultCorner.com',
-  description: 'Learn more about SarkariResultCorner.com - India\'s leading portal for latest government jobs, results, admit cards, and recruitment updates.',
+  title: 'About Us - SarkariResultCorner | India\'s Trusted Job Portal',
+  description: 'Learn about SarkariResultCorner.com, India\'s leading government job portal. We provide verified Sarkari Results, Admit Cards, and Jobs updates.',
 };
 
 export default function AboutLayout({ children }) {

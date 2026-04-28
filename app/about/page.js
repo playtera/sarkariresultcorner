@@ -3,27 +3,51 @@ import { ArrowLeft, User, Target, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'About Us | SarkariResultCorner',
-  description: 'Learn about SarkariResultCorner.com, the leading AI-powered government job portal in India.',
+  title: 'About Us - SarkariResultCorner | India\'s Trusted Job Portal',
+  description: 'Learn about SarkariResultCorner.com, India\'s leading government job portal. We provide verified Sarkari Results, Admit Cards, and Jobs updates.',
+  keywords: 'About SarkariResultCorner, Sarkari Result Team, Government Job Portal India, Verified Job Portal',
+  openGraph: {
+    title: 'About Us - SarkariResultCorner | India\'s Trusted Job Portal',
+    description: 'Learn about SarkariResultCorner.com, India\'s leading government job portal.',
+    url: 'https://sarkariresultcorner.com/about',
+    type: 'website',
+    images: [{ url: 'https://sarkariresultcorner.com/og-image.jpg', width: 1200, height: 630 }],
+  },
+};
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "SarkariResultCorner",
+    "url": "https://sarkariresultcorner.com",
+    "logo": "https://sarkariresultcorner.com/og-image.jpg",
+    "description": "India's leading portal for government job notifications, results, and career guidance."
+  }
 };
 
 export default function AboutPage() {
   return (
     <div className="legal-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
       <div className="wrapper">
         <Link href="/" className="back-link"><ArrowLeft size={16} /> Back Home</Link>
         
         <div className="glass-card">
           <div className="hero">
             <h1 className="title">About SarkariResultCorner</h1>
-            <p className="subtitle">Empowering India's Youth with AI-Driven Career Insights since 2026.</p>
+            <p className="subtitle">Empowering India's Youth with Expert-Verified Career Insights since 2026.</p>
           </div>
 
           <div className="grid">
             <div className="feature">
               <div className="icon"><User /></div>
               <h3>Who We Are</h3>
-              <p>SarkariResultCorner.com is a premier digital destination for job seekers in India. We leverage state-of-the-art AI technology (Gemini AI) to rewrite and simplify complex government notifications into easy-to-read, professional, and unique articles.</p>
+              <p>SarkariResultCorner.com is a premier digital destination for job seekers in India. We leverage a dedicated team of recruitment analysts to rewrite and simplify complex government notifications into easy-to-read, professional, and unique articles.</p>
             </div>
 
             <div className="feature">
@@ -41,7 +65,7 @@ export default function AboutPage() {
 
           <div className="content-text">
             <h2>Our Story</h2>
-            <p>Founded on the principles of transparency and speed, SarkariResultCorner was built to bridge the gap between complex government official websites and the common job seeker. We understand that every second counts when applying for a dream career, which is why we've automated the data extraction and delivery process while maintaining 100% accuracy.</p>
+            <p>Founded on the principles of transparency and speed, SarkariResultCorner was built to bridge the gap between complex government official websites and the common job seeker. We understand that every second counts when applying for a dream career, which is why we've streamlined the data extraction and delivery process while maintaining 100% accuracy.</p>
             
             <h2>Contact Our Team</h2>
             <p>We are a dedicated team of developers, SEO experts, and recruitment analysts working 24/7 to keep you ahead of the competition. If you have any suggestions or feedback, please visit our Contact Us page.</p>

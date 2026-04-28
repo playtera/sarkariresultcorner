@@ -3,16 +3,16 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export const metadata = {
-  title: 'Sarkari Result 2026 – Latest Govt Jobs, Admit Card, Answer Key | SarkariResultCorner',
-  description: 'SarkariResultCorner.com: India\'s trusted portal for Sarkari Result 2026, Sarkari Naukri, Admit Card, Answer Key & Online Form for SSC CGL, UPSC, RRB, IBPS, Bank & State PSC exams.',
-  keywords: 'Sarkari Result 2026, Sarkari Naukri 2026, Government Jobs India, SSC CGL 2026, RRB NTPC 2026, UPSC 2026, IBPS PO 2026, Admit Card Download, Answer Key 2026, Online Form, State PSC Jobs, UP Police Result, BPSC Result 2026, Latest Sarkari Vacancy, Railway Jobs 2026',
+  title: 'Sarkari Result 2026 - SarkariResultCorner | Latest Govt Jobs, Admit Cards & Results',
+  description: 'SarkariResultCorner.com: India\'s most trusted portal for Sarkari Result 2026, Sarkari Naukri, Admit Card, Answer Key & Online Form for SSC, UPSC, RRB, IBPS & State PSC.',
+  keywords: 'Sarkari Result 2026, Sarkari Naukri, Latest Govt Jobs, Admit Card 2026, Answer Key, Online Form, SSC CGL, RRB NTPC, UPSC, IBPS PO, State PSC Results',
   authors: [{ name: 'SarkariResultCorner Team' }],
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
   alternates: {
     canonical: 'https://sarkariresultcorner.com',
   },
   openGraph: {
-    title: 'Sarkari Result 2026 – Govt Jobs, Admit Card, Answer Key | SarkariResultCorner',
+    title: 'Sarkari Result 2026 - SarkariResultCorner | Latest Govt Jobs, Admit Cards & Results',
     description: 'India\'s trusted portal for Sarkari Result 2026, Sarkari Naukri, Admit Card & Online Form for SSC, UPSC, RRB, IBPS, Bank & State PSC exams. Updated daily.',
     url: 'https://sarkariresultcorner.com',
     siteName: 'SarkariResultCorner',
@@ -29,9 +29,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sarkari Result 2026 – Govt Jobs, Admit Card, Answer Key | SarkariResultCorner',
+    title: 'Sarkari Result 2026 - SarkariResultCorner | Latest Govt Jobs, Admit Cards & Results',
     description: 'India\'s trusted portal for Sarkari Result 2026, Sarkari Naukri, Admit Card & Online Form for SSC, UPSC, RRB, IBPS, Bank & State PSC exams.',
-    images: ['https://sarkariresultcorner.com/twitter-image.jpg'],
+    images: ['https://sarkariresultcorner.com/og-image.jpg'],
     site: '@SarkariResultCorner',
     creator: '@SarkariResultCorner',
   },
@@ -44,7 +44,7 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
-  // WebSite schema with SearchAction — helps AI engines understand site search
+  // WebSite schema with SearchAction — helps search engines understand site search
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",

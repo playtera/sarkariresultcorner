@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Terms and Conditions - SarkariResultCorner.com',
-  description: 'Read the terms and conditions for using SarkariResultCorner.com.',
+  title: 'Terms & Conditions - SarkariResultCorner | Usage Policy',
+  description: 'Read the Terms and Conditions of SarkariResultCorner.com to understand the rules and guidelines for using our government job portal.',
 };
 
 export default function TermsLayout({ children }) {

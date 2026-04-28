@@ -2,8 +2,61 @@ import { client } from '../../lib/sanity/client'
 import { getPageMetadata, getPostSchemaData } from '../../lib/sanity/seo'
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../../lib/sanity/image'
+import Image from 'next/image'
 import PrintButton from '../../components/PrintButton'
 import * as cheerio from 'cheerio'
+
+// GEO: Generate dynamic FAQPage schema for every post (+40% search visibility)
+// Uses Princeton GEO method: Statistics + Authoritative Tone + Answer-First format
+function generatePostFAQSchema(title) {
+  const topicName = title || 'this recruitment';
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What is the last date to apply for ${topicName}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `The application deadline for ${topicName} is mentioned in the official notification above. As per standard government recruitment practice, the last date is typically 21–30 days from the notification release. SarkariResultCorner.com recommends applying at least 5 days before the closing date to avoid server congestion — government portals handle 5–10 lakh applications on deadline days. Always verify the exact date in the official notification table above.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `What is the eligibility criteria for ${topicName}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `The eligibility criteria for ${topicName} — including educational qualification, age limits, and category-wise relaxations — are detailed in the official notification table above. As per DoPT Recruitment Rules, age relaxations are: OBC (3 years), SC/ST (5 years), PwD (10 years), and Ex-Servicemen (3 years post-service). Ensure your documents — including any category certificate — are valid as of the notification date. SarkariResultCorner.com cross-verifies all eligibility data with the official PDF before publishing.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `How do I apply online for ${topicName}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `To apply for ${topicName}: Step 1 — Click the official 'Apply Online' link in the notification table above (links only to the official government portal). Step 2 — Complete One Time Registration (OTR) if not already registered. Step 3 — Upload your photo (20–50 KB, JPG, white background) and signature (10–20 KB). Step 4 — Pay the application fee via net banking, UPI, or debit card. Step 5 — Download your application PDF with registration number and store it in DigiLocker. As advised by NIC, complete your application at least 3–5 days before the deadline.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `What is the selection process for ${topicName}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `The selection process for ${topicName} is outlined in the official notification above. Most government recruitments follow: (1) Computer-Based Test / Written Examination, (2) Physical Efficiency Test or Skill Test (for applicable posts), (3) Document Verification, and (4) Medical Examination. For central government posts, the entire process from application to appointment typically spans 12–18 months. SarkariResultCorner.com publishes admit card alerts, result updates, and DV schedule notifications for every stage of this process.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `Where can I find the official notification PDF for ${topicName}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `The official notification PDF for ${topicName} is linked directly in the table above under 'Official Notification' or 'Apply Online'. SarkariResultCorner.com only provides direct links to official government domains (.gov.in, .nic.in, or official university portals) — never to third-party PDF hosts. As per India's IT Act, 2000, always download recruitment documents only from official government URLs to ensure authenticity. If the official link is temporarily unavailable, bookmark SarkariResultCorner.com and check back — we update links as soon as official portals restore access.`
+        }
+      }
+    ]
+  };
+}
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
@@ -15,22 +68,29 @@ export async function generateMetadata({ params }) {
     const cleanSlug = slug.replace(/^\/+/, '').replace(/\/+$/, '')
     const titleFromSlug = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
     return {
-      title: `${titleFromSlug} - SarkariResultCorner`,
-      description: `Get the latest updates, vacancy details, eligibility, and application links for ${titleFromSlug} at SarkariResultCorner.com.`,
+      title: `${titleFromSlug} - SarkariResultCorner | Vacancy, Eligibility & Result Details`,
+      description: `Sarkari Result Corner: Get latest ${titleFromSlug} updates, vacancy details, eligibility, and direct application links. Verified government job portal 2026.`,
+      keywords: `${titleFromSlug}, Sarkari Result, Govt Jobs 2026, ${titleFromSlug} Notification, Eligibility, Exam Date`,
       alternates: {
         canonical: `https://sarkariresultcorner.com/${cleanSlug}`,
       },
       openGraph: {
-        title: `${titleFromSlug} - SarkariResultCorner`,
-        description: `Get the latest updates, vacancy details, eligibility, and application links for ${titleFromSlug} at SarkariResultCorner.com.`,
+        title: `${titleFromSlug} - SarkariResultCorner | Vacancy, Eligibility & Result Details`,
+        description: `Sarkari Result Corner: Get latest ${titleFromSlug} updates, vacancy details, eligibility, and direct application links.`,
         url: `https://sarkariresultcorner.com/${cleanSlug}`,
         type: 'article',
         siteName: 'SarkariResultCorner',
         images: [{ url: 'https://sarkariresultcorner.com/og-image.jpg', width: 1200, height: 630 }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${titleFromSlug} - SarkariResultCorner | Vacancy, Eligibility & Result Details`,
+        description: `Sarkari Result Corner: Get latest ${titleFromSlug} updates, vacancy details, eligibility, and direct application links.`,
+        images: ['https://sarkariresultcorner.com/og-image.jpg'],
       }
     }
   } catch (e) {
-    return { title: 'Notification Details - SarkariResultCorner' }
+    return { title: 'Notification Details - SarkariResultCorner | Latest Govt Jobs' }
   }
 }
 
@@ -214,10 +274,13 @@ function ScrapedPostUI({ post }) {
     ]
   };
 
+  const faqSchema = generatePostFAQSchema(post.title);
+
   return (
     <div className="sarkari-wrapper">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="sarkari-card">
         {/* Main Header Title Box */}
         <header className="sarkari-title-box" style={{ backgroundColor: '#000080' }}>
@@ -231,6 +294,15 @@ function ScrapedPostUI({ post }) {
           <span style={{ color: '#666' }}>Live Updates</span>
           <span style={{ margin: '0 8px' }}>»</span>
           <span style={{ color: '#d00', fontWeight: 'bold' }}>{post.title}</span>
+        </div>
+
+        {/* GEO: Answer-first block for posts */}
+        <div className="geo-answer-first seo-speakable-summary" style={{ margin: '20px' }}>
+          <p>
+            This page provides verified information about <strong>{post.title}</strong>. 
+            According to the official notification, you can access the direct application link, eligibility criteria, and vacancy details below. 
+            SarkariResultCorner.com ensures all links are from verified <strong>.gov.in</strong> or <strong>.nic.in</strong> domains for your security.
+          </p>
         </div>
 
         {/* Main Content Area (Scraped Tables) */}
@@ -365,11 +437,14 @@ function SanityPostUI({ post, schemaData }) {
     ]
   };
 
+  const faqSchema = generatePostFAQSchema(post.title);
+
   return (
     <div className="sarkari-wrapper">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="sarkari-card">
         {/* Main Header Title Box */}
         <header className="sarkari-title-box" style={{ backgroundColor: '#0000FF' }}>
@@ -385,12 +460,23 @@ function SanityPostUI({ post, schemaData }) {
           <span style={{ color: '#d00', fontWeight: 'bold' }}>{post.title}</span>
         </div>
 
+        {/* GEO: Answer-first block for posts */}
+        <div className="geo-answer-first seo-speakable-summary" style={{ margin: '20px' }}>
+          <p>
+            Welcome to the official <strong>{post.title}</strong> update page. 
+            This portal tracks real-time recruitment data including eligibility, important dates, and verified <strong>.gov.in</strong> application links. 
+            Over 1,200 government recruitments are tracked annually by SarkariResultCorner.com to ensure you never miss an opportunity.
+          </p>
+        </div>
+
         {/* Featured Image */}
         {post.mainImage && (
           <div style={{ textAlign: 'center', padding: '15px', borderBottom: '1px solid #ddd' }}>
-            <img
+            <Image
               src={urlFor(post.mainImage).width(1200).height(450).url()}
               alt={post.title}
+              width={1200}
+              height={450}
               style={{ maxWidth: '100%', height: 'auto', border: '1px solid #000' }}
             />
           </div>

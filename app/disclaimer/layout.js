@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Disclaimer - SarkariResultCorner.com',
-  description: 'Disclaimer policy for SarkariResultCorner.com. Please read our information accuracy and non-government association policy.',
+  title: 'Disclaimer - SarkariResultCorner | Legal Notice',
+  description: 'Read the Disclaimer of SarkariResultCorner.com regarding the accuracy and source of information provided on our portal.',
 };
 
 export default function DisclaimerLayout({ children }) {
