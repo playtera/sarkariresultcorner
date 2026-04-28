@@ -290,7 +290,7 @@ function ScrapedPostUI({ post }) {
 function SanityPostUI({ post, schemaData }) {
   const publishedAt = schemaData?.publishedAt || post.publishedAt || post._createdAt || new Date().toISOString();
   const modifiedAt = schemaData?._updatedAt || post._updatedAt || publishedAt;
-  const authorName = schemaData?.author || post.author || 'SarkariResultCorner Editorial Team';
+  const authorName = schemaData?.author || post.author || 'TeamSRC';
   const pageUrl = `https://sarkariresultcorner.com/${schemaData?.slug || post.slug?.current || ''}`;
 
   const articleSchema = {

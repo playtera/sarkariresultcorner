@@ -42,7 +42,7 @@ export default {
       title: 'Author / Editor',
       type: 'string',
       description: 'Name of the person who wrote or last updated this post (used for E-E-A-T schema).',
-      initialValue: 'SarkariResultCorner Editorial Team',
+      initialValue: 'TeamSRC',
     },
     {
       name: 'status',

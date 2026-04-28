@@ -20,14 +20,14 @@ const client = createClient({
   useCdn: false,
 })
 
-const DEFAULT_AUTHOR = 'SarkariResultCorner Editorial Team'
+const DEFAULT_AUTHOR = 'TeamSRC'
 
 async function patchAllPostsWithAuthor() {
   console.log('🔍 Fetching posts without an author field...\n')
 
-  // Fetch all published posts (not drafts) that have no author
+  // Fetch all published posts that have no author OR the old default value
   const posts = await client.fetch(
-    `*[_type == "post" && !(_id in path('drafts.**')) && !defined(author)] {
+    `*[_type == "post" && !(_id in path('drafts.**')) && (author == null || author == "SarkariResultCorner Editorial Team")] {
       _id,
       title,
       "slug": slug.current
@@ -53,7 +53,7 @@ async function patchAllPostsWithAuthor() {
     const transaction = client.transaction()
     for (const post of batch) {
       transaction.patch(post._id, (patch) =>
-        patch.setIfMissing({ author: DEFAULT_AUTHOR })
+        patch.set({ author: DEFAULT_AUTHOR })
       )
     }
 
