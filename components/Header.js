@@ -156,10 +156,12 @@ const Header = () => {
         .site-logo {
           height: 68px;
           width: auto;
+          aspect-ratio: 200 / 68;
         }
         .header-scrolled .site-logo {
           height: 48px;
           width: auto;
+          aspect-ratio: 200 / 68;
         }
         .header-content {
           display: flex;
@@ -253,6 +255,7 @@ const Header = () => {
           border: 1px solid var(--border);
           transition: all 0.3s ease;
           position: relative;
+          min-width: 42px;
         }
         .icon-action-btn:hover {
           background: var(--border);
