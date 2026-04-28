@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import CategoryList from '../../components/CategoryList';
+import CategoryList from '@/components/CategoryList';
 import { Briefcase, CheckCircle, FileText, GraduationCap, Info, Search, TrendingUp, Bell } from 'lucide-react';
 
 export default function Home() {

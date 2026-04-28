@@ -1,6 +1,4 @@
 import './globals.css';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import { ThemeProvider } from '../context/ThemeContext';
 import { Inter, Outfit } from 'next/font/google';
 import Script from 'next/script';
@@ -146,13 +144,11 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ThemeProvider>
-          <Header />
           <main>
             <Suspense fallback={<Loading />}>
               {children}
             </Suspense>
           </main>
-          <Footer />
         </ThemeProvider>
       </body>
     </html>
