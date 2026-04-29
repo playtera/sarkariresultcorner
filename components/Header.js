@@ -3,14 +3,23 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, Home, Send, Bell } from 'lucide-react';
+
+const SearchOverlay = dynamic(() => import('./SearchOverlay'), {
+  ssr: false,
+});
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when mobile menu or search is open
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen || isSearchOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -18,7 +27,27 @@ const Header = () => {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, isSearchOpen]);
+
+  // Handle ESC key to close search
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        setIsSearchOpen(false);
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsSearchOpen(false);
+    }
+  };
 
   const navLinks = [
     { name: 'Home', href: '/', icon: <Home size={18} /> },
@@ -69,13 +98,12 @@ const Header = () => {
         </nav>
 
         <div className="header-actions">
-          <button className="icon-action-btn search-trigger" aria-label="Search">
+          <button 
+            className="icon-action-btn search-trigger" 
+            onClick={() => setIsSearchOpen(true)}
+            aria-label="Search"
+          >
             <Search size={20} />
-          </button>
-
-          <button className="icon-action-btn notify-btn" aria-label="Notifications">
-            <Bell size={20} />
-            <span className="notify-badge"></span>
           </button>
 
           <a href="https://t.me/sarkariresult_corner" target="_blank" rel="noopener noreferrer" className="premium-cta-btn">
@@ -88,6 +116,15 @@ const Header = () => {
           </button>
         </div>
       </div>
+
+      {/* Search Overlay - Lazy Loaded for PageSpeed */}
+      <SearchOverlay 
+        isOpen={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        onSearch={handleSearch}
+      />
 
       {/* Mobile Navigation */}
       <div className={`mobile-overlay ${isOpen ? 'show' : ''}`} onClick={() => setIsOpen(false)}>
@@ -103,6 +140,19 @@ const Header = () => {
           </div>
 
           <div className="drawer-scroll-area">
+            {/* Mobile Search Bar Inside Drawer */}
+            <form className="drawer-search-form" onSubmit={handleSearch}>
+              <div className="drawer-search-input">
+                <Search size={18} />
+                <input 
+                  type="text" 
+                  placeholder="Search jobs..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </form>
+
             <ul className="drawer-menu">
               {navLinks.map((link, idx) => (
                 <li key={link.name} className={isOpen ? 'animate-in' : ''} style={{ animationDelay: `${0.1 + idx * 0.05}s` }}>
