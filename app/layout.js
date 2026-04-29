@@ -50,6 +50,17 @@ export const metadata = {
     site: '@SarkariResultCorner',
     creator: '@SarkariResultCorner',
   },
+  icons: {
+    icon: [
+      { url: '/favicon_io/favicon.ico' },
+      { url: '/favicon_io/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon_io/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/favicon_io/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  manifest: '/favicon_io/site.webmanifest',
 };
 
 export const viewport = {
@@ -136,11 +147,11 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <link rel="dns-prefetch" href="https://v8stz9v0.api.sanity.io" />
         <link rel="me" href="https://t.me/sarkariresult_corner" />
-        <link rel="icon" href="/src_lightmode.png" media="(prefers-color-scheme: light)" />
-        <link rel="icon" href="/src_darkmode.png" media="(prefers-color-scheme: dark)" />
-        <link rel="icon" href="/src_darkmode.png" />
-        <link rel="preload" href="/src_lightmode.png" as="image" />
-        <link rel="preload" href="/src_darkmode.png" as="image" />
+        <link rel="shortcut icon" href="/favicon_io/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
+        <link rel="manifest" href="/favicon_io/site.webmanifest" />
         <style dangerouslySetInnerHTML={{ __html: `
           :root { --background: #0a0a0f; --foreground: #ffffff; --card: #16161d; --border: rgba(255,255,255,0.1); --font-lcp: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
           .header-main { height: 83px; background: #0a0a0f; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); }

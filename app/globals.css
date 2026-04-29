@@ -1464,4 +1464,134 @@ a {
   .search-trigger { display: none; }
 }
 
+/* Mobile Navigation Styles */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+.mobile-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 350px;
+  height: 100vh;
+  background: var(--background);
+  border-left: 1px solid var(--border);
+  z-index: 2001;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-overlay.show .mobile-drawer {
+  right: 0;
+}
+
+.mobile-drawer-header {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.drawer-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.drawer-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  color: var(--foreground-muted);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.drawer-item:hover {
+  background: var(--border-light);
+  color: var(--foreground);
+  transform: translateX(5px);
+}
+
+.item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--border-light);
+  border-radius: 10px;
+  color: var(--primary);
+}
+
+.drawer-footer {
+  padding: 2rem 1.5rem;
+  border-top: 1px solid var(--border);
+  background: rgba(59, 130, 246, 0.03);
+}
+
+.drawer-caption {
+  font-size: 0.85rem;
+  color: var(--foreground-soft);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.drawer-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.animate-in {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideIn 0.4s forwards;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

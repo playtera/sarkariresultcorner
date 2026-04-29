@@ -30,8 +30,7 @@ const Footer = () => {
         <div className="footer-top">
           <div className="footer-intro">
             <Link href="/" className="footer-logo">
-              <Image src="/srcheader_lightmode.png" alt="SarkariResultCorner.com Official Logo" className="logo-img logo-light" width={165} height={56} />
-              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com Official Logo" className="logo-img logo-dark" width={165} height={56} />
+              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com Official Logo" className="logo-img" width={165} height={56} />
             </Link>
             <p className="footer-tagline">
               Connecting millions of aspirants with their dream government careers. Trust, accuracy, and speed at your fingertips.
@@ -58,10 +57,10 @@ const Footer = () => {
               SarkariResultCorner.com is India's leading portal for government job notifications, results, and career guidance. We provide verified information direct from official sources.
             </p>
             <div className="social-pill-container">
-               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Globe size={18} /></a>
-               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><Share2 size={18} /></a>
-               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Info size={18} /></a>
-               <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Youtube"><ExternalLink size={18} /></a>
+              <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Globe size={18} /></a>
+              <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><Share2 size={18} /></a>
+              <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Info size={18} /></a>
+              <a href="https://t.me/sarkariresult_corner" className="social-pill" target="_blank" rel="noopener noreferrer" aria-label="Youtube"><ExternalLink size={18} /></a>
             </div>
           </div>
 
@@ -96,18 +95,18 @@ const Footer = () => {
 
         {/* Bottom Section: Copyright & Legal */}
         <div className="footer-bottom">
-           <div className="bottom-content">
-             <p className="copyright-text">
-               &copy; 2026 <span className="text-gradient">SarkariResultCorner</span>. Built with passion for Indian Aspirants.
-             </p>
-             <div className="legal-links">
-               {footerLinks.company.map((link) => (
-                 <Link key={link.name} href={link.href} className="legal-footer-link">
-                   {link.name}
-                 </Link>
-               ))}
-             </div>
-           </div>
+          <div className="bottom-content">
+            <p className="copyright-text">
+              &copy; 2026 <span className="text-gradient">SarkariResultCorner</span>. Built with passion for Indian Aspirants.
+            </p>
+            <div className="legal-links">
+              {footerLinks.company.map((link) => (
+                <Link key={link.name} href={link.href} className="legal-footer-link">
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

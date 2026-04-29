@@ -1,12 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X, Search, Briefcase, GraduationCap, FileText, CheckCircle, Home, Send, Bell } from 'lucide-react';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const navLinks = [
     { name: 'Home', href: '/', icon: <Home size={18} /> },
@@ -21,24 +33,25 @@ const Header = () => {
       <div className="container header-content">
         <Link href="/" className="logo-area">
           <div className="logo-container" style={{ position: 'relative', width: '176px', height: '60px' }}>
-            <img 
-              src="/src_lightmode.png" 
+            <Image 
+              src="/srcheader_darkmode.png" 
               alt="SarkariResultCorner.com Logo" 
               className="site-logo logo-light" 
-              width="176" 
-              height="60" 
-              fetchpriority="high"
-              style={{ position: 'absolute', top: 0, left: 0, display: 'none' }}
+              width={176} 
+              height={60} 
+              priority
+              style={{ objectFit: 'contain' }}
             />
-            <img 
-              src="/src_darkmode.png" 
+            <Image 
+              src="/srcheader_darkmode.png" 
               alt="SarkariResultCorner.com Logo" 
               className="site-logo logo-dark" 
-              width="176" 
-              height="60" 
-              fetchpriority="high"
-              style={{ position: 'absolute', top: 0, left: 0 }}
+              width={176} 
+              height={60} 
+              priority
+              style={{ objectFit: 'contain' }}
             />
+            <div className="logo-glow"></div>
           </div>
         </Link>
 
@@ -78,21 +91,21 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       <div className={`mobile-overlay ${isOpen ? 'show' : ''}`} onClick={() => setIsOpen(false)}>
-        <nav className="mobile-drawer glass" onClick={(e) => e.stopPropagation()}>
+        <nav className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-drawer-header">
-            <div className="mobile-logo-container" style={{ position: 'relative', width: '160px', height: '42px' }}>
-              <Image src="/src_lightmode.png" alt="SarkariResultCorner.com Mobile Logo" className="drawer-logo logo-light" width={160} height={42} style={{ position: 'absolute', top: 0, left: 0, display: 'none' }} />
-              <Image src="/src_darkmode.png" alt="SarkariResultCorner.com Mobile Logo" className="drawer-logo logo-dark" width={160} height={42} style={{ position: 'absolute', top: 0, left: 0 }} />
+            <div className="mobile-logo-container" style={{ position: 'relative', width: '140px', height: '48px' }}>
+              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com Mobile Logo" className="drawer-logo logo-light" width={140} height={48} style={{ objectFit: 'contain' }} />
+              <Image src="/srcheader_darkmode.png" alt="SarkariResultCorner.com Mobile Logo" className="drawer-logo logo-dark" width={140} height={48} style={{ objectFit: 'contain' }} />
             </div>
-            <div className="mobile-header-actions">
-              <button className="close-drawer" onClick={() => setIsOpen(false)}><X size={24} /></button>
-            </div>
+            <button className="icon-action-btn" onClick={() => setIsOpen(false)} aria-label="Close Menu">
+              <X size={24} />
+            </button>
           </div>
 
           <div className="drawer-scroll-area">
             <ul className="drawer-menu">
               {navLinks.map((link, idx) => (
-                <li key={link.name} style={{ animationDelay: `${idx * 0.1}s` }} className={isOpen ? 'animate-in' : ''}>
+                <li key={link.name} className={isOpen ? 'animate-in' : ''} style={{ animationDelay: `${0.1 + idx * 0.05}s` }}>
                   <Link href={link.href} className="drawer-item" onClick={() => setIsOpen(false)}>
                     <span className="item-icon">{link.icon}</span>
                     <span className="item-name">{link.name}</span>
@@ -104,7 +117,7 @@ const Header = () => {
 
           <div className="drawer-footer">
             <p className="drawer-caption">Get instant updates on Telegram</p>
-            <a href="https://t.me/sarkariresult_corner" className="drawer-cta">
+            <a href="https://t.me/sarkariresult_corner" className="drawer-cta" target="_blank" rel="noopener noreferrer">
               <Send size={18} /> Join Now
             </a>
           </div>
