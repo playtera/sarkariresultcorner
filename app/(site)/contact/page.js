@@ -6,6 +6,16 @@ import Link from 'next/link';
 
 // Metadata removed because this is now a client component for the form
 export default function ContactPage() {
+  const [status, setStatus] = React.useState('idle'); // idle, submitting, success
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStatus('submitting');
+    setTimeout(() => {
+      setStatus('success');
+    }, 1500);
+  };
+
   return (
     <div className="legal-page">
       <div className="wrapper">
@@ -40,26 +50,37 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
-            <h2>Send Us a Message</h2>
-            <div className="form-group">
-               <label>Your Name</label>
-               <input type="text" placeholder="Enter your full name" />
+          {status === 'success' ? (
+            <div className="success-message">
+               <div className="success-icon">✓</div>
+               <h2>Message Sent Successfully!</h2>
+               <p>Thank you for reaching out to Team SarkariResultCorner. We have received your query and our recruitment analysts will get back to you within 24-48 hours via email.</p>
+               <button onClick={() => setStatus('idle')} className="back-btn">Send Another Message</button>
             </div>
-            <div className="form-group">
-               <label>Email Address</label>
-               <input type="email" placeholder="Enter your email" />
-            </div>
-            <div className="form-group">
-               <label>Subject</label>
-               <input type="text" placeholder="What can we help with?" />
-            </div>
-            <div className="form-group">
-               <label>Message</label>
-               <textarea placeholder="Type your message here..." rows={5}></textarea>
-            </div>
-            <button type="submit" className="submit-btn" disabled>Coming Soon</button>
-          </form>
+          ) : (
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <h2>Send Us a Message</h2>
+              <div className="form-group">
+                <label>Your Name</label>
+                <input type="text" placeholder="Enter your full name" required />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="Enter your email" required />
+              </div>
+              <div className="form-group">
+                <label>Subject</label>
+                <input type="text" placeholder="What can we help with?" required />
+              </div>
+              <div className="form-group">
+                <label>Message</label>
+                <textarea placeholder="Type your message here..." rows={5} required></textarea>
+              </div>
+              <button type="submit" className="submit-btn" disabled={status === 'submitting'}>
+                {status === 'submitting' ? 'Sending...' : 'Send Message Now'}
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
@@ -86,7 +107,18 @@ export default function ContactPage() {
         .form-group label { display: block; margin-bottom: 0.75rem; font-weight: 700; color: #94a3b8; font-size: 0.9rem; letter-spacing: 0.5px; }
         .form-group input, .form-group textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem; color: white; font-family: inherit; font-size: 1rem; }
         .form-group input:focus, .form-group textarea:focus { border-color: #3b82f6; outline: none; background: rgba(255,255,255,0.08); }
-        .submit-btn { width: 100%; padding: 1.25rem; background: #3b82f6; color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 900; opacity: 0.5; curson: not-allowed; transition: all 0.3s; }
+        .submit-btn { width: 100%; padding: 1.25rem; background: #3b82f6; color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 900; transition: all 0.3s; cursor: pointer; }
+        .submit-btn:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4); }
+        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .success-message { text-align: center; padding: 4rem; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 2rem; animation: fadeIn 0.5s ease-out; }
+        .success-icon { width: 80px; height: 80px; background: #22c55e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 2rem; box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4); }
+        .success-message h2 { color: #22c55e; margin-bottom: 1.5rem; font-size: 2.25rem; font-weight: 950; }
+        .success-message p { color: #94a3b8; line-height: 1.8; margin-bottom: 3rem; font-size: 1.1rem; }
+        .back-btn { background: transparent; border: 1px solid #94a3b8; color: #94a3b8; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .back-btn:hover { color: white; border-color: white; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       `}} />
     </div>
   );

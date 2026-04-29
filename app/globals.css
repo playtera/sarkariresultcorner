@@ -66,15 +66,30 @@
 }
 
 /* Theme-Aware Logo Logic */
-.logo-light { display: none !important; }
-.logo-dark { display: block !important; }
+.logo-light {
+  display: none !important;
+}
 
-[data-theme='light'] .logo-light { display: block !important; }
-[data-theme='light'] .logo-dark { display: none !important; }
+.logo-dark {
+  display: block !important;
+}
+
+[data-theme='light'] .logo-light {
+  display: block !important;
+}
+
+[data-theme='light'] .logo-dark {
+  display: none !important;
+}
 
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme='dark']) .logo-light { display: block !important; }
-  :root:not([data-theme='dark']) .logo-dark { display: none !important; }
+  :root:not([data-theme='dark']) .logo-light {
+    display: block !important;
+  }
+
+  :root:not([data-theme='dark']) .logo-dark {
+    display: none !important;
+  }
 }
 
 /* Base Styles */
@@ -437,8 +452,7 @@ button {
 
 .sarkari-content-area table {
   width: 100% !important;
-  border-collapse: separate !important;
-  border-spacing: 0 !important;
+  border-collapse: collapse !important;
   margin: 2rem 0 !important;
   border: 1px solid var(--border) !important;
   background: rgba(255, 255, 255, 0.03) !important;
@@ -448,20 +462,57 @@ button {
   transition: all 0.4s ease;
 }
 
-.sarkari-content-area table:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  border-color: rgba(59, 130, 246, 0.3) !important;
+.sarkari-content-area tr {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  width: 100% !important;
+  transition: background 0.3s ease;
 }
 
-.sarkari-content-area table td,
-.sarkari-content-area table th {
+.sarkari-content-area td,
+.sarkari-content-area th {
+  flex: 1 1 0px;
+  min-width: 0;
   border: 1px solid var(--border) !important;
   padding: 15px 20px !important;
   text-align: center !important;
   font-size: 0.95rem !important;
   color: var(--foreground) !important;
-  transition: background 0.3s ease;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Add a more distinct vertical divider between side-by-side cells */
+.sarkari-content-area td:not(:last-child):not(.content-heavy) {
+  border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Ensure horizontal dividers for stacked/heavy cells are also clear */
+.sarkari-content-area td.content-heavy {
+  flex: 1 0 100% !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+  border-bottom: 2px solid var(--border) !important;
+}
+
+.sarkari-content-area tr.cell-count-2:not(.has-heavy-content) td {
+  flex-basis: 50% !important;
+}
+
+.sarkari-content-area tr.cell-count-3:not(.has-heavy-content) td {
+  flex-basis: 33.33% !important;
+}
+
+.sarkari-content-area tr.has-heavy-content td:not(.content-heavy) {
+  flex-basis: 50% !important;
+  background: rgba(59, 130, 246, 0.05) !important;
+  color: var(--primary) !important;
+  font-weight: 700 !important;
 }
 
 .sarkari-content-area table th {
@@ -645,37 +696,20 @@ button {
   .sarkari-content-area tbody {
     display: block !important;
     width: 100% !important;
-    border: none !important;
   }
 
-  /* Target rows with 2 or fewer cells for the card-style grid layout */
-  .sarkari-content-area tr:not(:has(td:nth-child(3))) {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0 !important;
-    margin-bottom: 1.5rem !important;
-    border: 1px solid var(--border) !important;
-    background: var(--card) !important;
-    border-radius: 1rem !important;
-    overflow: hidden !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
-    backdrop-filter: blur(8px) !important;
-  }
-
-  /* MODERNISED SARKARI TABLE - MOBILE HYBRID LAYOUT */
-  .sarkari-content-area table,
-  .sarkari-content-area thead,
-  .sarkari-content-area tbody {
+  /* MODERNISED SARKARI TABLE - CONTENT-AWARE DYNAMIC LAYOUT */
+  .sarkari-content-area table {
     display: block !important;
-    width: 100% !important;
     border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
-  /* Target all rows for basic grid structure, refined per cell count below */
   .sarkari-content-area tr {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
     margin-bottom: 2rem !important;
     border: 1px solid var(--border) !important;
     background: var(--card) !important;
@@ -686,75 +720,56 @@ button {
     position: relative !important;
   }
 
-  /* Hybrid Layout: Title & Count in 2 columns, Eligibility in Full Width */
-  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(1),
-  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(2) {
-    grid-column: span 1 !important;
-    border-bottom: 1px solid var(--border) !important;
-    background: rgba(59, 130, 246, 0.05) !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    font-size: 0.8rem !important;
-    letter-spacing: 0.02em !important;
-    white-space: normal !important;
-    /* Fixed: Allow wrapping for 50/50 balance */
-    flex-direction: row !important;
-    gap: 0.5rem !important;
-  }
-
-  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(1) {
-    border-right: 1px solid var(--border) !important;
-    color: var(--primary) !important;
-  }
-
-  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(2) {
-    color: #fca311 !important;
-  }
-
-  /* The 3rd cell (usually eligibility) grows to full width */
-  .sarkari-content-area tr:has(td:nth-child(3)) td:nth-child(n+3) {
-    grid-column: 1 / -1 !important;
-    width: 100% !important;
-    text-align: left !important;
-    align-items: flex-start !important;
-    padding: 1.5rem 1.25rem !important;
-    background: rgba(255, 255, 255, 0.01) !important;
-    font-size: 0.95rem !important;
-    line-height: 1.6 !important;
-    word-break: break-word !important;
-  }
-
-
-
-  /* Handle simple 2-cell rows (Grid 2) */
-  .sarkari-content-area tr:not(:has(td:nth-child(3))) td {
-    grid-column: span 1 !important;
-  }
-
-  /* Handle 1-cell rows */
-  .sarkari-content-area tr:has(td:only-child) td {
-    grid-column: span 2 !important;
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent) !important;
-    font-weight: 700 !important;
-    color: #60a5fa !important;
-  }
-
   .sarkari-content-area td {
-    padding: 1rem 0.75rem !important;
+    flex: 1 1 50% !important;
+    /* Default to 50/50 */
+    min-width: 0 !important;
+    padding: 1.25rem 1rem !important;
     text-align: center !important;
-    border: none !important;
+    border: 1px solid var(--border) !important;
     display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
     align-items: center !important;
     justify-content: center !important;
     transition: all 0.3s ease !important;
     line-height: 1.4 !important;
     word-break: break-word !important;
-    overflow-wrap: anywhere !important;
   }
 
-  /* Header Cell Overrides */
+  /* Distinct vertical divider for mobile side-by-side cells */
+  .sarkari-content-area td:not(:last-child):not(.content-heavy) {
+    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+
+  /* FULL WIDTH: If a cell is tagged as heavy content by our Cheerio logic */
+  .sarkari-content-area td.content-heavy,
+  .sarkari-content-area tr.cell-count-1 td {
+    flex: 1 0 100% !important;
+    width: 100% !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    padding: 1.5rem !important;
+    border-right: none !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* BALANCED 3-CELL LAYOUT: If all 3 cells are small (not heavy) */
+  .sarkari-content-area tr.cell-count-3:not(.has-heavy-content) td {
+    flex: 1 1 33.33% !important;
+  }
+
+  /* HYBRID 3-CELL LAYOUT: If one is heavy (takes 100%), the other two split 50/50 */
+  .sarkari-content-area tr.cell-count-3.has-heavy-content td:not(.content-heavy) {
+    flex: 1 1 50% !important;
+    background: rgba(59, 130, 246, 0.05) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+    color: var(--primary) !important;
+  }
+
+  /* Header Cell Styling */
   .sarkari-content-area th {
     display: block !important;
     width: 100% !important;
@@ -765,24 +780,13 @@ button {
     text-transform: uppercase !important;
     letter-spacing: 0.1em !important;
     font-size: 0.85rem !important;
-    border-bottom: 2px solid var(--primary) !important;
   }
 
-  /* Cleanup borders for 2-column mode */
-  .sarkari-content-area tr:not(:has(td:nth-child(3))) td:nth-child(odd) {
-    border-right: 1px solid var(--border) !important;
-    border-bottom: 1px solid var(--border) !important;
-    width: 100% !important;
-  }
-
-  .sarkari-content-area tr:not(:has(td:nth-child(3))) td:nth-child(even) {
-    border-bottom: 1px solid var(--border) !important;
-    width: 100% !important;
-  }
-
-  .sarkari-content-area tr td:last-child,
-  .sarkari-content-area tr td:nth-last-child(2):nth-child(odd):not(:has(+ td + td)) {
-    border-bottom: none !important;
+  /* Handle 1-cell rows specifically */
+  .sarkari-content-area tr.cell-count-1 td {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent) !important;
+    font-weight: 700 !important;
+    color: #60a5fa !important;
   }
 
   .bottom-nav {
@@ -819,6 +823,7 @@ button {
 
 /* Ensure mobile hybrid headers are also flat */
 @media (max-width: 991px) {
+
   .scraped-tables th,
   .scraped-tables tr:has(td:nth-child(3)) td:nth-child(1),
   .scraped-tables tr:has(td:nth-child(3)) td:nth-child(2) {
@@ -848,6 +853,7 @@ img[data-nimg] {
 a {
   word-break: break-all !important;
 }
+
 /* Sarkari Result Post Styles (Theme-Aware) */
 .sarkari-wrapper {
   padding: 2rem 1rem;
@@ -867,7 +873,7 @@ a {
 .sarkari-title-box {
   padding: 1.5rem;
   text-align: center;
-  color: white; 
+  color: white;
 }
 
 .sarkari-title-box h1 {
@@ -883,16 +889,11 @@ a {
 
 .scraped-tables table {
   width: 100% !important;
-  border-collapse: collapse !important;
   margin-bottom: 2rem !important;
-  background: var(--card) !important;
-  color: var(--foreground) !important;
-  border: 1px solid var(--border) !important;
 }
 
-.scraped-tables td, .scraped-tables th {
-  padding: 12px !important;
-  border: 1px solid var(--border) !important;
+.scraped-tables td,
+.scraped-tables th {
   color: var(--foreground) !important;
 }
 
@@ -919,7 +920,17 @@ a {
 }
 
 /* Skeleton Animations */
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
 
 .category-section {
   background: var(--card);
@@ -1012,16 +1023,50 @@ a {
   min-height: 200px;
 }
 
-.primary:hover::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-.primary .category-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-.success:hover::before { background: linear-gradient(90deg, #10b981, #34d399); }
-.success .category-icon { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-.info:hover::before { background: linear-gradient(90deg, #0ea5e9, #38bdf8); }
-.info .category-icon { background: rgba(14, 165, 233, 0.15); color: #38bdf8; }
-.warning:hover::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-.warning .category-icon { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-.danger:hover::before { background: linear-gradient(90deg, #ef4444, #f87171); }
-.danger .category-icon { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+.primary:hover::before {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.primary .category-icon {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.success:hover::before {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.success .category-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.info:hover::before {
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+}
+
+.info .category-icon {
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+}
+
+.warning:hover::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.warning .category-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.danger:hover::before {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.danger .category-icon {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
 
 .job-card-item {
   padding: 0.5rem 0;
@@ -1333,7 +1378,8 @@ a {
   background: var(--glass-bg);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow-md);
-  height: 101px; /* Locked height */
+  height: 101px;
+  /* Locked height */
   display: flex;
   align-items: center;
 }
@@ -1452,16 +1498,38 @@ a {
 }
 
 @media (max-width: 1100px) {
-  .header-main { height: 83px; padding: 1rem 0; }
-  .site-logo { height: 42px; width: 123px; }
-  .nav-link-modern { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+  .header-main {
+    height: 83px;
+    padding: 1rem 0;
+  }
+
+  .site-logo {
+    height: 42px;
+    width: 123px;
+  }
+
+  .nav-link-modern {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 1024px) {
-  .desktop-navigation { display: none; }
-  .mobile-menu-trigger { display: block; }
-  .premium-cta-btn { display: none; }
-  .search-trigger { display: flex; }
+  .desktop-navigation {
+    display: none;
+  }
+
+  .mobile-menu-trigger {
+    display: block;
+  }
+
+  .premium-cta-btn {
+    display: none;
+  }
+
+  .search-trigger {
+    display: flex;
+  }
 }
 
 /* Mobile Navigation Styles */
@@ -1746,8 +1814,182 @@ a {
 }
 
 @media (max-width: 640px) {
-  .search-container { width: 95%; }
-  .search-input-wrapper { padding: 0.5rem 1rem; }
-  .search-input-wrapper input { font-size: 1rem; }
-  .search-submit-btn { display: none; }
+  .search-container {
+    width: 95%;
+  }
+
+  .search-input-wrapper {
+    padding: 0.5rem 1rem;
+  }
+
+  .search-input-wrapper input {
+    font-size: 1rem;
+  }
+
+  .search-submit-btn {
+    display: none;
+  }
+}
+
+/* ==========================================
+   PREMIUM FAQ SECTION (faq-data)
+   ========================================== */
+.faq-data {
+  margin: 3.5rem 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  width: 100% !important;
+  text-align: left !important;
+}
+
+.faq-data .faq-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 2.25rem;
+  margin-bottom: 1.75rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  text-align: left !important;
+}
+
+.faq-data .faq-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary), #60a5fa);
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.faq-data .faq-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.faq-data .faq-item:hover::before {
+  opacity: 1;
+}
+
+.faq-data .faq-question {
+  font-family: var(--font-outfit), sans-serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 800 !important;
+  color: var(--foreground) !important;
+  margin-bottom: 1.25rem !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 15px !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
+}
+
+.faq-data .faq-question::before {
+  content: 'Q';
+  color: white;
+  font-weight: 900;
+  background: var(--primary);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  margin-top: 4px;
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+.faq-data .faq-answer {
+  font-size: 1.05rem !important;
+  color: var(--foreground-muted) !important;
+  line-height: 1.8 !important;
+  padding-left: 43px !important;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+.faq-data .faq-item:hover .faq-answer {
+  color: var(--foreground);
+}
+
+/* Auto-generated FAQ specific wrapper */
+.visible-faq-section {
+  padding: 4rem 20px !important;
+  border-top: 2px solid var(--border) !important;
+  background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.03));
+  margin-top: 4rem;
+}
+
+.visible-faq-section h2 {
+  font-size: 2.75rem !important;
+  color: var(--primary) !important;
+  margin-bottom: 3.5rem !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  width: 100%;
+}
+/* Related Links Box (AdSense Compliance) */
+.related-links-box { margin: 20px; padding: 20px; background: var(--card); border: 1px solid var(--border); border-left: 5px solid var(--primary); border-radius: 8px; box-shadow: var(--shadow-sm); }
+.related-title { font-size: 1.1rem; color: var(--foreground); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.links-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 768px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+.related-link-item { display: flex; gap: 10px; padding: 10px; background: var(--background); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease; }
+.related-link-item:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateX(5px); }
+.related-link-item .arrow { color: var(--danger); font-weight: bold; }
+.related-link-item:hover .arrow { color: white; }
+.related-link-item .text { line-height: 1.4; }
+
+/* Trending Section (Bottom of Post) */
+.trending-section { padding: 40px 20px; border-top: 1px solid var(--border); background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.02)); }
+.trending-header { margin-bottom: 25px; text-align: left; }
+.trending-title { font-size: 1.5rem !important; color: var(--primary) !important; margin-bottom: 8px !important; }
+.trending-subtitle { color: var(--foreground-muted); font-size: 0.95rem; }
+.trending-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+@media (min-width: 640px) { .trending-grid { grid-template-columns: 1fr 1fr; } }
+.trending-item { display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s ease; }
+.trending-item:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: var(--shadow-md); background: var(--border-light); }
+.trending-icon { font-size: 1.2rem; }
+.trending-text { font-size: 0.95rem; font-weight: 600; color: var(--foreground); line-height: 1.4; }
+
+/* Keyword Chips Section */
+.keywords-box { padding: 20px; border-top: 1px dashed var(--border); display: flex; align-items: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+.keywords-label { font-weight: 700; font-size: 0.9rem; color: var(--foreground-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.keywords-list { display: flex; gap: 8px; flex-wrap: wrap; }
+.keyword-chip { padding: 6px 14px; background: var(--border-light); border: 1px solid var(--border); border-radius: 99px; font-size: 0.85rem; font-weight: 600; color: var(--foreground-soft); transition: all 0.2s ease; }
+.keyword-chip:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+/* Contextual Keyword Links */
+.contextual-link { color: var(--primary) !important; font-weight: 700 !important; border-bottom: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.2s ease; }
+.contextual-link:hover { color: var(--danger) !important; border-bottom-color: var(--danger); background: rgba(239, 68, 68, 0.05); }
+/* Contextual Keyword Links (AdSense Safe & Highly Visible) */
+.contextual-link {
+  color: #2563eb !important; /* Vivid Blue */
+  background: rgba(37, 99, 235, 0.08); /* Soft blue tint */
+  padding: 0 4px;
+  border-radius: 4px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  font-weight: 700 !important;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.contextual-link:hover {
+  background: #2563eb;
+  color: #ffffff !important;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
 }
