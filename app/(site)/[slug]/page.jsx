@@ -1,9 +1,9 @@
-import { client } from '../../lib/sanity/client'
-import { getPageMetadata, getPostSchemaData } from '../../lib/sanity/seo'
+import { client } from '../../../lib/sanity/client'
+import { getPageMetadata, getPostSchemaData } from '../../../lib/sanity/seo'
 import { PortableText } from '@portabletext/react'
-import { urlFor } from '../../lib/sanity/image'
+import { urlFor } from '../../../lib/sanity/image'
 import Image from 'next/image'
-import PrintButton from '../../components/PrintButton'
+import PrintButton from '../../../components/PrintButton'
 import * as cheerio from 'cheerio'
 import { connection } from 'next/server'
 
@@ -66,7 +66,7 @@ export async function generateMetadata({ params }) {
     if (metadata) return metadata
 
     // 2. Fetch Scraped Data if Sanity is empty
-    const { getSlugScrapedData } = await import('../../lib/data-fetcher');
+    const { getSlugScrapedData } = await import('../../../lib/data-fetcher');
     const post = await getSlugScrapedData(slug);
 
     const cleanSlug = slug.replace(/^\/+/, '').replace(/\/+$/, '');
@@ -140,7 +140,7 @@ function enhanceScrapedHtml(html, inlineLink, allLinks) {
               if (linkedInThisBlock.has(kw.link)) return; // Already linked this category in this block
 
               const regex = new RegExp(`\\b(${word})\\b`, 'i'); // Non-global: only first match
-              
+
               // Verify we aren't already inside a link or heading
               const $parent = $(node).parent();
               const isInsideForbidden = $parent.closest('a, h1, h2, h3, h4, h5, h6, script, style').length > 0;
@@ -342,12 +342,12 @@ export default async function PostPage({ params }) {
 
   // 2. FALLBACK TO SCRAPED DATA (Cached)
   if (!post) {
-    const { getSlugScrapedData } = await import('../../lib/data-fetcher');
+    const { getSlugScrapedData } = await import('../../../lib/data-fetcher');
     post = await getSlugScrapedData(slug);
   }
 
   // 3. FETCH HOMEPAGE DATA FOR INTERNAL LINKING (AdSense Recommendation)
-  const { getScrapedData } = await import('../../lib/data-fetcher');
+  const { getScrapedData } = await import('../../../lib/data-fetcher');
   const homepageData = await getScrapedData();
   // Flatten and filter current slug
   const allLinks = (homepageData || []).flatMap(cat => cat.items || []);
@@ -434,14 +434,15 @@ function ScrapedPostUI({ post, inlineLink, trendingLinks }) {
           <h1>{post.title}</h1>
         </header>
 
-        {/* Navigation Breadcrumbs */}
         <div style={{ textAlign: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)', fontSize: '0.9rem' }}>
           <a href="/" style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Home</a>
-          <span style={{ margin: '0 8px', color: 'var(--foreground-soft)' }}>»</span>
-          <span style={{ color: 'var(--foreground-muted)' }}>Live Updates</span>
-          <span style={{ margin: '0 8px', color: 'var(--foreground-soft)' }}>»</span>
-          <span style={{ color: 'var(--danger)', fontWeight: 'bold' }}>{post.title}</span>
+          <span style={{ margin: '0 8px', color: '#666' }}>»</span>
+          <a href="/latest-jobs" style={{ color: 'var(--primary)' }}>Live Updates</a>
+          <span style={{ margin: '0 8px', color: '#666' }}>»</span>
+          <span style={{ color: '#666' }}>Details</span>
         </div>
+
+
 
         {/* GEO: Answer-first block for posts - Variations to avoid template detection */}
         <div className="geo-answer-first seo-speakable-summary">
