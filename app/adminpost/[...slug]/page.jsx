@@ -127,7 +127,7 @@ Wrap each table in a div with a descriptive class:
   <div class="table-fee">...</div>       → for fee tables
   <div class="table-dates">...</div>     → for important dates
   <div class="table-vacancy">...</div>   → for vacancy/post details
-  <div class="table-links">...</div>     → for download/apply links
+  <div class="table-links">...</div>     → for download/apply links [Zero Omission Policy: You must count the total number of links provided in the original "SOME USEFUL IMPORTANT LINKS" section. Your rewritten table MUST contain the exact same number of links.]
   <div class="table-eligibility">...</div> → for eligibility criteria
 
 ---
@@ -189,6 +189,16 @@ NOTE on keywords block: List ONLY long-tail (Tier 3) keywords — specific 3–6
 Do NOT list generic terms like "sarkari result" or "government jobs" as standalone keywords.
 Good: "SSC CGL 2026 admit card download with roll number"
 Bad: "SSC CGL 2026"
+
+-SEQUENTIAL OUTPUT RULE (MANDATORY): > 1. You must output BLOCK 1 (The Full HTML) entirely on its own first.
+
+2. You must finish the HTML with the specific marker: ``.
+
+3. After the marker, STOP immediately. Do not provide the Title, Description, or Keywords yet.
+
+4. Only after I reply with "Next," provide the remaining Blocks (2, 3, and 4).
+
+5. NEVER summarize the HTML. If it is 1200+ words, you must output all 1200+ words.
 
 = `;
 
