@@ -69,6 +69,7 @@ const Header = () => {
               width={176} 
               height={60} 
               priority
+              fetchPriority="high"
               style={{ objectFit: 'contain' }}
             />
             <Image 
@@ -78,6 +79,7 @@ const Header = () => {
               width={176} 
               height={60} 
               priority
+              fetchPriority="high"
               style={{ objectFit: 'contain' }}
             />
             <div className="logo-glow"></div>

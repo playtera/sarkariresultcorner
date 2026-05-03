@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import AdSenseLoader from '../components/AdSenseLoader';
 import { Suspense } from 'react';
 import { Inter, Outfit } from 'next/font/google';
+import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -87,12 +88,19 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
         <link rel="manifest" href="/favicon_io/site.webmanifest" />
+        <link rel="preload" href="/srcheader_darkmode.png" as="image" type="image/png" />
         {/* AdSense Verification Script - Placed in head for approval */}
-        <script
-          async
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        {/* AdSense Verification Script - Using next/script for better performance while maintaining bot visibility */}
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2635309868525139"
           crossOrigin="anonymous"
-        ></script>
+        />
       </head>
       <body className={inter.className}>
         {children}
